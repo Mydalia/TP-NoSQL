@@ -8,14 +8,14 @@ datasource db {
 }
 
 model User {
-  id        Int       @id @default(autoincrement())
-  email     String    @unique
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
   name      String
-  createdAt DateTime  @default(now()) @map("created_at")
-  updatedAt DateTime  @updatedAt @map("updated_at")
-  following User[]    @relation("Follows")
-  followers User[]    @relation("Follows")
-  purchase  Product[]
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  followers Follow[] @relation("following")
+  following Follow[] @relation("followers")
+  purchases  Order[]
 }
 
 model Product {
@@ -25,5 +25,27 @@ model Product {
   price        Int
   createdAt    DateTime @default(now()) @map("created_at")
   updatedAt    DateTime @updatedAt @map("updated_at")
-  buyers       User[]
+  buyers       Order[]
+}
+
+// Relation table //
+
+model Follow {
+  id          Int      @id @default(autoincrement())
+  follower    User     @relation("followers", fields: [followerId], references: [id])
+  followerId  Int
+  following   User     @relation("following", fields: [followingId], references: [id])
+  followingId Int
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+}
+
+model Order {
+  id        Int      @id @default(autoincrement())
+  buyer     User     @relation(fields: [buyerId], references: [id])
+  buyerId   Int      @map("buyer_id")
+  product   Product  @relation(fields: [productId], references: [id])
+  productId Int      @map("product_id")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 }

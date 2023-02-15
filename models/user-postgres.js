@@ -12,8 +12,11 @@ async function create(email, name) {
 }
 
 async function createMany(number, batch) {
+    const start = Date.now();
+
     number = parseInt(number);
     batch = parseInt(batch);
+
     let users = [];
     let count = 0;
     
@@ -29,6 +32,25 @@ async function createMany(number, batch) {
             });
             count += result.count;
             users = [];
+
+            let data = [];
+            
+            const lastInsertedId = await prisma.user.count() - batch + 1;
+            for(let userId = lastInsertedId; userId < lastInsertedId + batch; userId++) {
+                if(Math.random() > 0.5) {
+                    let numberOfFollowers = Math.floor(Math.random() * 20) + 1;            
+                    for(let i = 0; i < numberOfFollowers; i++) {
+                        data.push({
+                            followingId: userId,
+                            followerId: Math.floor(Math.random() * (lastInsertedId + batch - lastInsertedId) + lastInsertedId)
+                        });
+                    }
+                }
+            }
+
+            await prisma.follow.createMany({
+                data: data
+            });
         }
     }
 
@@ -39,7 +61,10 @@ async function createMany(number, batch) {
         count += result.count;
     }
 
-    return { "count": count };
+    return { 
+        "count": count,
+        "executionTime": Date.now() - start
+    };
 }
 
 async function findById(id) {
@@ -58,36 +83,45 @@ async function findAll(skip, take) {
 }
 
 async function findFollowers(id, skip, take){
-    return prisma.user.findUnique({
+    return prisma.user.findMany({
         where: {
-            id: parseInt(id)
-        }
-    }).followers({
+            following: {
+                some: {
+                    followingId: parseInt(id)
+                }
+            }
+        },
         skip: parseInt(skip) || undefined,
         take: parseInt(take) || undefined
-    });
+    })
 }
 
 async function findFollowing(id, skip, take) {
-    return prisma.user.findUnique({
+    return prisma.user.findMany({
         where: {
-            id: parseInt(id)
-        }
-    }).following({
+            followers: {
+                some: {
+                    followerId: parseInt(id)
+                }
+            }
+        },
         skip: parseInt(skip) || undefined,
         take: parseInt(take) || undefined
-    });
+    })
 }
 
 async function findPurchase(id, skip, take) {
-    return prisma.user.findUnique({
+    return prisma.product.findMany({
         where: {
-            id: parseInt(id)
-        }
-    }).purchase({
+            buyers: {
+                some: {
+                    buyerId: parseInt(id)
+                }
+            }
+        },
         skip: parseInt(skip) || undefined,
         take: parseInt(take) || undefined
-    });
+    })
 }
 
 async function update(id, email, name) {
@@ -103,46 +137,28 @@ async function update(id, email, name) {
 }
 
 async function follow(id, personToFollowId) {
-    return prisma.user.update({
-        where: {
-            id: parseInt(id)
-        },
+    return prisma.follow.create({
         data: {
-            following: {
-                connect: {
-                    id: parseInt(personToFollowId) || undefined
-                }
-            }
+            followerId: parseInt(id),
+            followingId: parseInt(personToFollowId)
         }
-    });
+    })
 }
 
 async function unfollow(id, personToUnfollowId) {
-    return prisma.user.update({
+    return prisma.follow.deleteMany({
         where: {
-            id: parseInt(id)
-        },
-        data: {
-            following: {
-                disconnect: {
-                    id: parseInt(personToUnfollowId) || undefined
-                }
-            }
+            followerId: parseInt(id),
+            followingId: parseInt(personToUnfollowId)
         }
     });
 }
 
 async function purchase(id, productId) {
-    return prisma.user.update({
-        where: {
-            id: parseInt(id)
-        },
+    return prisma.order.create({
         data: {
-            purchase: {
-                connect: {
-                    id: parseInt(productId) || undefined
-                }
-            }
+            buyerId: parseInt(id),
+            productId: parseInt(productId)
         }
     });
 }

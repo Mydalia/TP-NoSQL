@@ -60,11 +60,14 @@ async function findAll(skip, take) {
 }
 
 async function findBuyers(id, skip, take){
-    return prisma.product.findUnique({
+    return prisma.user.findMany({
         where: {
-            id: parseInt(id)
-        }
-    }).buyers({
+            purchases: {
+                some: {
+                    productId: parseInt(id)
+                }
+            }
+        },
         skip: parseInt(skip) || undefined,
         take: parseInt(take) || undefined
     });
