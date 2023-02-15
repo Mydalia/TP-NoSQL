@@ -10,12 +10,12 @@ datasource db {
 model User {
   id        Int       @id @default(autoincrement())
   email     String    @unique
-  name      String?
+  name      String
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime  @updatedAt @map("updated_at")
   following User[]    @relation("Follows")
   followers User[]    @relation("Follows")
-  products  Product[]
+  purchase  Product[]
 }
 
 model Product {
@@ -25,5 +25,5 @@ model Product {
   price        Int
   createdAt    DateTime @default(now()) @map("created_at")
   updatedAt    DateTime @updatedAt @map("updated_at")
-  users        User[]
+  buyers       User[]
 }

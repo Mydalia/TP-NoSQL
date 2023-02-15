@@ -6,8 +6,8 @@ const users = require('../models/user-postgres');
 router.post('/', async(req, res, next) => {
     // #swagger.tags = ['Users']
     try {
-        if(req.body.number) {
-            res.status(201).json(await users.createMany(req.body.number));
+        if(req.body.number && req.body.batch) {
+            res.status(201).json(await users.createMany(req.body.number, req.body.batch));
         } else {
             res.status(201).json(await users.create(req.body.email, req.body.name));
         }
@@ -19,7 +19,7 @@ router.post('/', async(req, res, next) => {
 router.get('/', async(req, res, next) => {
     // #swagger.tags = ['Users']
     try {
-        res.status(200).json(await users.findAll());
+        res.status(200).json(await users.findAll(req.query.skip, req.query.take));
     } catch (e) {
         next(e);
     }
@@ -37,7 +37,7 @@ router.get('/:id', async(req, res, next) => {
 router.get('/:id/followers', async(req, res, next) => {
     // #swagger.tags = ['Users']
     try {
-        res.status(200).json(await users.findFollowers(req.params.id));
+        res.status(200).json(await users.findFollowers(req.params.id, req.query.skip, req.query.take));
     } catch (e) {
         next(e);
     }
@@ -46,7 +46,16 @@ router.get('/:id/followers', async(req, res, next) => {
 router.get('/:id/following', async(req, res, next) => {
     // #swagger.tags = ['Users']
     try {
-        res.status(200).json(await users.findFollowing(req.params.id));
+        res.status(200).json(await users.findFollowing(req.params.id, req.query.skip, req.query.take));
+    } catch (e) {
+        next(e);
+    }
+});
+
+router.put('/:id', async(req, res, next) => {
+    // #swagger.tags = ['Users']
+    try {
+        res.status(200).json(await users.update(req.params.id, req.body.email, req.body.name));
     } catch (e) {
         next(e);
     }
@@ -61,10 +70,19 @@ router.put('/:id/follow', async(req, res, next) => {
     }
 });
 
-router.put('/:id', async(req, res, next) => {
+router.put('/:id/unfollow', async(req, res, next) => {
     // #swagger.tags = ['Users']
     try {
-        res.status(200).json(await users.update(req.params.id, req.body.email, req.body.name));
+        res.status(200).json(await users.unfollow(req.params.id, req.body.personToUnfollowId));
+    } catch (e) {
+        next(e);
+    }
+});
+
+router.put('/:id/purchase', async(req, res, next) => {
+    // #swagger.tags = ['Users']
+    try {
+        res.status(200).json(await users.purchase(req.params.id, req.body.productId));
     } catch (e) {
         next(e);
     }
