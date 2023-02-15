@@ -5,7 +5,13 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "swagger": "node ./swagger/swagger.js",
+    "docker:build": "docker compose build",
+    "docker:prepare": "docker compose run --rm app sh -c 'npx prisma db push --force-reset --accept-data-loss'",
+    "docker:run": "docker compose up",
+    "docker:run:databases": "docker compose up postgres neo4j",
+    "docker:clean": "docker compose down && docker volume rm tp-nosql_tp-nosql-postgres tp-nosql_tp-nosql-neo4j"
   },
   "repository": {
     "type": "git",

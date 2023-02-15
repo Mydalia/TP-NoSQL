@@ -354,6 +354,12 @@
             "schema": {
               "type": "object",
               "properties": {
+                "number": {
+                  "example": "any"
+                },
+                "batch": {
+                  "example": "any"
+                },
                 "email": {
                   "example": "any"
                 },
