@@ -1,0 +1,49 @@
+version: '3.9'
+
+services:
+
+  # app:
+  #   build: .
+  #   container_name: app
+  #   networks:
+  #     - tp-nosql
+  #   ports:
+  #     - 8080:8080
+  #   depends_on:
+  #     - neo4j
+  #     - postgres
+
+  neo4j:
+    image: neo4j:community
+    container_name: neo4j
+    networks:
+      - tp-nosql
+    ports:
+      - 7474:7474
+      - 7687:7687
+    volumes:
+      - tp-nosql-neo4j:/data
+
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    command: ["postgres", "-c", "log_statement=all"]
+    networks:
+      - tp-nosql
+    ports:
+      - 5432:5432
+    volumes:
+      - tp-nosql-postgres:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+
+networks:
+  tp-nosql:
+    driver: bridge
+
+volumes:
+  tp-nosql-neo4j:
+    driver: local
+  tp-nosql-postgres:
+    driver: local
