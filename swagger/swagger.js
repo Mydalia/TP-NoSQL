@@ -6,8 +6,8 @@ const outputFile = './swagger-doc.json';
 const doc = {
     info: {
         version: '1.0.0',
-        title: 'NoSQL API',
-        description: 'NoSQL API Documentation'
+        title: 'TP-NoSQL API',
+        description: 'TP-NoSQL API Documentation'
     },
     host: '',
     basePath: '/api',
@@ -16,12 +16,20 @@ const doc = {
     produces: ['application/json'],
     tags: [
         {
-            name: 'Users',
-            description: 'User Endpoints'
+            name: 'Postgres/Users',
+            description: 'User with postgres endpoints'
         },
         {
-            name: 'Products',
-            description: 'Product Endpoints'
+            name: 'Neo4j/Users',
+            description: 'User with neo4j endpoints'
+        },
+        {
+            name: 'Postgres/Products',
+            description: 'Product with postgres endpoints'
+        },
+        {
+            name: 'Neo4j/Products',
+            description: 'Product with neo4j endpoints'
         }
     ]
 };

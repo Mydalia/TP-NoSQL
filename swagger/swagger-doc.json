@@ -2,19 +2,27 @@
   "swagger": "2.0",
   "info": {
     "version": "1.0.0",
-    "title": "NoSQL API",
-    "description": "NoSQL API Documentation"
+    "title": "TP-NoSQL API",
+    "description": "TP-NoSQL API Documentation"
   },
   "host": "",
   "basePath": "/api",
   "tags": [
     {
-      "name": "Users",
-      "description": "User Endpoints"
+      "name": "Postgres/Users",
+      "description": "User with postgres endpoints"
     },
     {
-      "name": "Products",
-      "description": "Product Endpoints"
+      "name": "Neo4j/Users",
+      "description": "User with neo4j endpoints"
+    },
+    {
+      "name": "Postgres/Products",
+      "description": "Product with postgres endpoints"
+    },
+    {
+      "name": "Neo4j/Products",
+      "description": "Product with neo4j endpoints"
     }
   ],
   "schemes": [
@@ -42,7 +50,7 @@
     "/postgres/users/": {
       "post": {
         "tags": [
-          "Users"
+          "Postgres/Users"
         ],
         "description": "",
         "parameters": [
@@ -76,7 +84,7 @@
       },
       "get": {
         "tags": [
-          "Users"
+          "Postgres/Users"
         ],
         "description": "",
         "parameters": [
@@ -101,7 +109,7 @@
     "/postgres/users/{id}": {
       "get": {
         "tags": [
-          "Users"
+          "Postgres/Users"
         ],
         "description": "",
         "parameters": [
@@ -120,7 +128,7 @@
       },
       "put": {
         "tags": [
-          "Users"
+          "Postgres/Users"
         ],
         "description": "",
         "parameters": [
@@ -154,7 +162,7 @@
       },
       "delete": {
         "tags": [
-          "Users"
+          "Postgres/Users"
         ],
         "description": "",
         "parameters": [
@@ -175,7 +183,7 @@
     "/postgres/users/{id}/followers": {
       "get": {
         "tags": [
-          "Users"
+          "Postgres/Users"
         ],
         "description": "",
         "parameters": [
@@ -206,7 +214,7 @@
     "/postgres/users/{id}/following": {
       "get": {
         "tags": [
-          "Users"
+          "Postgres/Users"
         ],
         "description": "",
         "parameters": [
@@ -237,7 +245,7 @@
     "/postgres/users/{id}/follow": {
       "put": {
         "tags": [
-          "Users"
+          "Postgres/Users"
         ],
         "description": "",
         "parameters": [
@@ -270,7 +278,7 @@
     "/postgres/users/{id}/unfollow": {
       "put": {
         "tags": [
-          "Users"
+          "Postgres/Users"
         ],
         "description": "",
         "parameters": [
@@ -303,7 +311,7 @@
     "/postgres/users/{id}/purchase": {
       "put": {
         "tags": [
-          "Users"
+          "Postgres/Users"
         ],
         "description": "",
         "parameters": [
@@ -333,10 +341,40 @@
         }
       }
     },
+    "/neo4j/users/": {
+      "post": {
+        "tags": [
+          "Neo4j/Users"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "example": "any"
+                },
+                "name": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        }
+      }
+    },
     "/postgres/products/": {
       "post": {
         "tags": [
-          "Products"
+          "Postgres/Products"
         ],
         "description": "",
         "parameters": [
@@ -373,7 +411,7 @@
       },
       "get": {
         "tags": [
-          "Products"
+          "Postgres/Products"
         ],
         "description": "",
         "parameters": [
@@ -398,7 +436,7 @@
     "/postgres/products/{id}": {
       "get": {
         "tags": [
-          "Products"
+          "Postgres/Products"
         ],
         "description": "",
         "parameters": [
@@ -417,7 +455,7 @@
       },
       "put": {
         "tags": [
-          "Products"
+          "Postgres/Products"
         ],
         "description": "",
         "parameters": [
@@ -454,7 +492,7 @@
       },
       "delete": {
         "tags": [
-          "Products"
+          "Postgres/Products"
         ],
         "description": "",
         "parameters": [
@@ -475,7 +513,7 @@
     "/postgres/products/{id}/buyers": {
       "get": {
         "tags": [
-          "Products"
+          "Postgres/Products"
         ],
         "description": "",
         "parameters": [

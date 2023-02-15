@@ -4,7 +4,7 @@ const router = express.Router();
 const products = require('../models/product-postgres');
 
 router.post('/', async(req, res, next) => {
-    // #swagger.tags = ['Products']
+    // #swagger.tags = ['Postgres/Products']
     try {
         if(req.body.number && req.body.batch) {
             res.status(201).json(await products.createMany(req.body.number, req.body.batch));
@@ -17,7 +17,7 @@ router.post('/', async(req, res, next) => {
 });
 
 router.get('/', async(req, res, next) => {
-    // #swagger.tags = ['Products']
+    // #swagger.tags = ['Postgres/Products']
     try {
         res.status(200).json(await products.findAll(req.query.skip, req.query.take));
     } catch (e) {
@@ -26,7 +26,7 @@ router.get('/', async(req, res, next) => {
 });
 
 router.get('/:id', async(req, res, next) => {
-    // #swagger.tags = ['Products']
+    // #swagger.tags = ['Postgres/Products']
     try {
         res.status(200).json(await products.findById(req.params.id));
     } catch (e) {
@@ -35,7 +35,7 @@ router.get('/:id', async(req, res, next) => {
 });
 
 router.get('/:id/buyers', async(req, res, next) => {
-    // #swagger.tags = ['Products']
+    // #swagger.tags = ['Postgres/Products']
     try {
         res.status(200).json(await products.findBuyers(req.params.id, req.query.skip, req.query.take));
     } catch (e) {
@@ -44,7 +44,7 @@ router.get('/:id/buyers', async(req, res, next) => {
 });
 
 router.put('/:id', async(req, res, next) => {
-    // #swagger.tags = ['Products']
+    // #swagger.tags = ['Postgres/Products']
     try {
         res.status(200).json(await products.update(req.params.id, req.body.serialNumber, req.body.name, req.body.price));
     } catch (e) {
@@ -53,7 +53,7 @@ router.put('/:id', async(req, res, next) => {
 });
 
 router.delete('/:id', async(req, res, next) => {
-    // #swagger.tags = ['Products']
+    // #swagger.tags = ['Postgres/Products']
     try {
         res.status(200).json(await products.remove(req.params.id));
     } catch (e) {

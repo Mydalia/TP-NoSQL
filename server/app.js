@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const port = process.env.PORT || 3000;
+const path = require('path');
 
 const compression = require('compression');
 
@@ -19,6 +20,7 @@ app.disable('x-powered-by');
 
 app.use(compression());
 
+app.use(express.static(path.join(__dirname, '../public')));
 app.use('/api', api);
 app.use('/api/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
