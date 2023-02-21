@@ -4,19 +4,16 @@ const { randomUUID } = require('crypto');
 
 async function create(serialNumber, name, price) {
     const session = neo4j.session();
-    try {
-        const result = await session.run(
-            'CREATE (p:Product {serialNumber: $serialNumber, name: $name, price: $price}) RETURN p',
-            {
-                serialNumber: serialNumber,
-                name: name,
-                price: price
-            }
-        );
-        return result.records[0].get(0).properties;
-    } finally {
-        await session.close();
-    }
+    const result = await session.run(
+        'CREATE (p:Product {serialNumber: $serialNumber, name: $name, price: $price}) RETURN p',
+        {
+            serialNumber: serialNumber,
+            name: name,
+            price: price
+        }
+    );
+    await session.close();
+    return result.records[0].get(0).properties;
 }
 
 async function createMany(number, batch) {
@@ -28,44 +25,43 @@ async function createMany(number, batch) {
     let products = [];
     let count = 0;
 
-    let session = neo4j.session();
-    try {
-        for(let i = 0; i < number; i++) {
-            products.push({
-                serialNumber: randomUUID(),
-                name: randomUUID(),
-                price: Math.floor(Math.random() * 1000)
-            });
+    for (let i = 0; i < number; i++) {
+        products.push({
+            serialNumber: randomUUID(),
+            name: randomUUID(),
+            price: Math.floor(Math.random() * 1000)
+        });
 
-            if(products.length === batch) {
-                const result = await session.run(
-                    'UNWIND $products AS product CREATE (p:Product {serialNumber: product.serialNumber, name: product.name, price: product.price}) RETURN p',
-                    {
-                        products: products
-                    }
-                );
-                count += result.records.length;
-                products = [];
-            }
-        }
-
-        if(products.length > 0) {
+        if (products.length === batch) {
+            const session = neo4j.session();
             const result = await session.run(
                 'UNWIND $products AS product CREATE (p:Product {serialNumber: product.serialNumber, name: product.name, price: product.price}) RETURN p',
                 {
                     products: products
                 }
             );
+            await session.close();
             count += result.records.length;
+            products = [];
         }
-
-        return { 
-            "count": count,
-            "executionTime": Date.now() - start
-        };
-    } finally {
-        await session.close();
     }
+
+    if (products.length > 0) {
+        const session = neo4j.session();
+        const result = await session.run(
+            'UNWIND $products AS product CREATE (p:Product {serialNumber: product.serialNumber, name: product.name, price: product.price}) RETURN p',
+            {
+                products: products
+            }
+        );
+        await session.close();
+        count += result.records.length;
+    }
+
+    return {
+        count: count,
+        executionTime: Date.now() - start
+    };
 }
 
 module.exports = {

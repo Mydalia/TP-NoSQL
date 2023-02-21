@@ -28,13 +28,13 @@ router.get('/', async(req, res, next) => {
         }
 
         res.status(200).json({
-            "postgres": {
-                "users": postgresUsers,
-                "products": postgresProducts
+            postgres: {
+                users: postgresUsers,
+                products: postgresProducts
             },
-            "neo4j": {
-                "users": neo4jUsers,
-                "products": neo4jProducts
+            neo4j: {
+                users: neo4jUsers,
+                products: neo4jProducts
             }
         });
     } catch (e) {

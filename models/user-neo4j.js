@@ -4,21 +4,33 @@ const { randomUUID } = require('crypto');
 
 async function create(email, name) {
     const session = neo4j.session();
-    try {
-        const result = await session.run(
-            'CREATE (u:User {email: $email, name: $name}) RETURN u',
-            {
-                email: email,
-                name: name
-            }
-        );
-        return result.records[0].get(0).properties;
-    } finally {
-        await session.close();
-    }
+    const result = await session.run(
+        'CREATE (u:User {email: $email, name: $name}) RETURN u',
+        {
+            email: email,
+            name: name
+        }
+    );
+    await session.close();
+    return result.records[0].get(0).properties;
 }
 
 async function createMany(number, batch) {
+    let session = neo4j.session();
+    let result = await session.run(
+        'MATCH (:Product) RETURN count(*) as count'
+    );
+    await session.close();
+
+    const productNumber = result.records[0].get(0).low;
+    if (productNumber === 0) {
+        return {
+            count: 0,
+            executionTime: 0,
+            error: 'No products in database'
+        };
+    }
+
     const start = Date.now();
 
     number = parseInt(number);
@@ -27,43 +39,88 @@ async function createMany(number, batch) {
     let users = [];
     let count = 0;
 
-    let session = neo4j.session();
-    try {
-        for(let i = 0; i < number; i++) {
-            users.push({
-                email: randomUUID() + '@test.com',
-                name: randomUUID()
-            });
+    for (let i = 0; i < number; i++) {
+        users.push({
+            email: `${randomUUID()}@test.com`,
+            name: randomUUID()
+        });
 
-            if(users.length === batch) {
-                const result = await session.run(
-                    'UNWIND $users AS user CREATE (u:User {email: user.email, name: user.name}) RETURN u',
-                    {
-                        users: users
-                    }
-                );
-                count += result.records.length;
-                users = [];
-            }
-        }
-
-        if(users.length > 0) {
-            const result = await session.run(
+        if (users.length === batch) {
+            session = neo4j.session();
+            result = await session.run(
                 'UNWIND $users AS user CREATE (u:User {email: user.email, name: user.name}) RETURN u',
                 {
                     users: users
                 }
             );
+            await session.close();
             count += result.records.length;
-        }
+            users = [];
 
-        return { 
-            "count": count,
-            "executionTime": Date.now() - start
-        };
-    } finally {
-        await session.close();
+            let data = [];
+            for (let j = 0; j < result.records.length; j++) {
+                if (Math.random() > 0.5) {
+                    const numberOfFollowers = Math.floor(Math.random() * 20) + 1;
+                    for (let k = 0; k < numberOfFollowers; k++) {
+                        data.push({
+                            followingId: result.records[j].get(0).identity.low,
+                            followerId: result.records[Math.floor(Math.random() * result.records.length)].get(0).identity.low
+                        });
+                    }
+                }
+            }
+            if (data.length > 0) {
+                session = neo4j.session();
+                await session.run(
+                    'UNWIND $data AS d MATCH (u:User), (f:User) WHERE id(u) = d.followingId AND id(f) = d.followerId CREATE (f)-[:FOLLOWS]->(u)',
+                    {
+                        data: data
+                    }
+                );
+                await session.close();
+            }
+
+            data = [];
+            for (let j = 0; j < result.records.length; j++) {
+                const numberOfProducts = Math.floor(Math.random() * 5) + 1;
+                for (let k = 0; k < numberOfProducts; k++) {
+                    data.push({
+                        userId: result.records[j].get(0).identity.low,
+                        productId: Math.floor(Math.random() * productNumber) + 1
+                    });
+                }
+            }
+            if (data.length > 0) {
+                session = neo4j.session();
+                await session.run(
+                    'UNWIND $data AS d MATCH (u:User), (p:Product) WHERE id(u) = d.userId AND id(p) = d.productId CREATE (u)-[:BOUGHT]->(p)',
+                    {
+                        data: data
+                    }
+                );
+                await session.close();
+            }
+
+            data = [];
+        }
     }
+
+    if (users.length > 0) {
+        session = neo4j.session();
+        result = await session.run(
+            'UNWIND $users AS user CREATE (u:User {email: user.email, name: user.name}) RETURN u',
+            {
+                users: users
+            }
+        );
+        await session.close();
+        count += result.records.length;
+    }
+
+    return {
+        count: count,
+        executionTime: Date.now() - start
+    };
 }
 
 module.exports = {

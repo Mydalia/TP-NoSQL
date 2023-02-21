@@ -12,12 +12,12 @@ async function create(email, name) {
 }
 
 async function createMany(number, batch) {
-    let productNumber = await prisma.product.count();
-    if(productNumber === 0) {
+    const productNumber = await prisma.product.count();
+    if (productNumber === 0) {
         return {
-            "count": 0,
-            "executionTime": 0,
-            "error": "No products in database"
+            count: 0,
+            executionTime: 0,
+            error: 'No products in database'
         };
     }
 
@@ -28,15 +28,15 @@ async function createMany(number, batch) {
 
     let users = [];
     let count = 0;
-    
-    for(let i = 0; i < number; i++) {
+
+    for (let i = 0; i < number; i++) {
         users.push({
-            email: randomUUID() + '@test.com',
+            email: `${randomUUID()}@test.com`,
             name: randomUUID()
         });
 
-        if(users.length === batch) {
-            let result = await prisma.user.createMany({
+        if (users.length === batch) {
+            const result = await prisma.user.createMany({
                 data: users
             });
             count += result.count;
@@ -45,10 +45,10 @@ async function createMany(number, batch) {
             const lastInsertedId = await prisma.user.count() - batch + 1;
 
             let data = [];
-            for(let userId = lastInsertedId; userId < lastInsertedId + batch; userId++) {
-                if(Math.random() > 0.5) {
-                    let numberOfFollowers = Math.floor(Math.random() * 20) + 1;
-                    for(let i = 0; i < numberOfFollowers; i++) {
+            for (let userId = lastInsertedId; userId < lastInsertedId + batch; userId++) {
+                if (Math.random() > 0.5) {
+                    const numberOfFollowers = Math.floor(Math.random() * 20) + 1;
+                    for (let k = 0; k < numberOfFollowers; k++) {
                         data.push({
                             followingId: userId,
                             followerId: Math.floor(Math.random() * (lastInsertedId + batch - lastInsertedId) + lastInsertedId)
@@ -56,38 +56,42 @@ async function createMany(number, batch) {
                     }
                 }
             }
-            await prisma.follow.createMany({
-                data: data
-            });
+            if (data.length > 0) {
+                await prisma.follow.createMany({
+                    data: data
+                });
+            }
 
             data = [];
-            for(let userId = lastInsertedId; userId < lastInsertedId + batch; userId++) {
-                let numberOfProducts = Math.floor(Math.random() * 5) + 1;
-                for(let i = 0; i < numberOfProducts; i++) {
+            for (let userId = lastInsertedId; userId < lastInsertedId + batch; userId++) {
+                const numberOfProducts = Math.floor(Math.random() * 5) + 1;
+                for (let k = 0; k < numberOfProducts; k++) {
                     data.push({
                         buyerId: userId,
                         productId: Math.floor(Math.random() * productNumber) + 1
                     });
                 }
             }
-            await prisma.order.createMany({
-                data: data
-            });
+            if (data.length > 0) {
+                await prisma.order.createMany({
+                    data: data
+                });
+            }
 
             data = [];
         }
     }
 
-    if(users.length > 0) {
-        let result = await prisma.user.createMany({
+    if (users.length > 0) {
+        const result = await prisma.user.createMany({
             data: users
         });
         count += result.count;
     }
 
-    return { 
-        "count": count,
-        "executionTime": Date.now() - start
+    return {
+        count: count,
+        executionTime: Date.now() - start
     };
 }
 
@@ -106,7 +110,7 @@ async function findById(id) {
     });
 }
 
-async function findFollowers(id, skip, take){
+async function findFollowers(id, skip, take) {
     return prisma.user.findMany({
         where: {
             following: {
@@ -117,7 +121,7 @@ async function findFollowers(id, skip, take){
         },
         skip: parseInt(skip) || undefined,
         take: parseInt(take) || undefined
-    })
+    });
 }
 
 async function findFollowing(id, skip, take) {
@@ -131,7 +135,7 @@ async function findFollowing(id, skip, take) {
         },
         skip: parseInt(skip) || undefined,
         take: parseInt(take) || undefined
-    })
+    });
 }
 
 async function findPurchases(id, skip, take) {
@@ -145,7 +149,7 @@ async function findPurchases(id, skip, take) {
         },
         skip: parseInt(skip) || undefined,
         take: parseInt(take) || undefined
-    })
+    });
 }
 
 async function update(id, email, name) {
@@ -166,7 +170,7 @@ async function follow(id, userToFollowId) {
             followerId: parseInt(id),
             followingId: parseInt(userToFollowId)
         }
-    })
+    });
 }
 
 async function unfollow(id, userToUnfollowId) {

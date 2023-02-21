@@ -6,7 +6,7 @@ const users = require('../models/user-postgres');
 router.post('/', async(req, res, next) => {
     // #swagger.tags = ['Postgres/Users']
     try {
-        if(req.body.number && req.body.batch) {
+        if (req.body.number && req.body.batch) {
             res.status(201).json(await users.createMany(req.body.number, req.body.batch));
         } else {
             res.status(201).json(await users.create(req.body.email, req.body.name));

@@ -21,15 +21,15 @@ async function createMany(number, batch) {
     let products = [];
     let count = 0;
 
-    for(let i = 0; i < number; i++) {
+    for (let i = 0; i < number; i++) {
         products.push({
             serialNumber: randomUUID(),
             name: randomUUID(),
             price: Math.floor(Math.random() * 1000)
         });
 
-        if(products.length === batch) {
-            let result = await prisma.product.createMany({
+        if (products.length === batch) {
+            const result = await prisma.product.createMany({
                 data: products
             });
             count += result.count;
@@ -37,16 +37,16 @@ async function createMany(number, batch) {
         }
     }
 
-    if(products.length > 0) {
-        let result = await prisma.product.createMany({
+    if (products.length > 0) {
+        const result = await prisma.product.createMany({
             data: products
         });
         count += result.count;
     }
 
-    return { 
-        "count": count,
-        "executionTime": Date.now() - start
+    return {
+        count: count,
+        executionTime: Date.now() - start
     };
 }
 
@@ -65,7 +65,7 @@ async function findById(id) {
     });
 }
 
-async function findBuyers(id, skip, take){
+async function findBuyers(id, skip, take) {
     return prisma.user.findMany({
         where: {
             purchases: {
