@@ -19,6 +19,8 @@ async function create(email, name) {
 }
 
 async function createMany(number, batch) {
+    const start = Date.now();
+
     number = parseInt(number);
     batch = parseInt(batch);
 
@@ -55,7 +57,10 @@ async function createMany(number, batch) {
             count += result.records.length;
         }
 
-        return { "count": count };
+        return { 
+            "count": count,
+            "executionTime": Date.now() - start
+        };
     } finally {
         await session.close();
     }

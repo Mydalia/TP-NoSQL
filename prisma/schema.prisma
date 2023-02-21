@@ -15,7 +15,7 @@ model User {
   updatedAt DateTime @updatedAt @map("updated_at")
   followers Follow[] @relation("following")
   following Follow[] @relation("followers")
-  purchases  Order[]
+  purchases Order[]
 }
 
 model Product {

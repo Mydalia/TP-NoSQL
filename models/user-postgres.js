@@ -12,6 +12,15 @@ async function create(email, name) {
 }
 
 async function createMany(number, batch) {
+    let productNumber = await prisma.product.count();
+    if(productNumber === 0) {
+        return {
+            "count": 0,
+            "executionTime": 0,
+            "error": "No products in database"
+        };
+    }
+
     const start = Date.now();
 
     number = parseInt(number);
@@ -33,12 +42,12 @@ async function createMany(number, batch) {
             count += result.count;
             users = [];
 
-            let data = [];
-            
             const lastInsertedId = await prisma.user.count() - batch + 1;
+
+            let data = [];
             for(let userId = lastInsertedId; userId < lastInsertedId + batch; userId++) {
                 if(Math.random() > 0.5) {
-                    let numberOfFollowers = Math.floor(Math.random() * 20) + 1;            
+                    let numberOfFollowers = Math.floor(Math.random() * 20) + 1;
                     for(let i = 0; i < numberOfFollowers; i++) {
                         data.push({
                             followingId: userId,
@@ -47,10 +56,25 @@ async function createMany(number, batch) {
                     }
                 }
             }
-
             await prisma.follow.createMany({
                 data: data
             });
+
+            data = [];
+            for(let userId = lastInsertedId; userId < lastInsertedId + batch; userId++) {
+                let numberOfProducts = Math.floor(Math.random() * 5) + 1;
+                for(let i = 0; i < numberOfProducts; i++) {
+                    data.push({
+                        buyerId: userId,
+                        productId: Math.floor(Math.random() * productNumber) + 1
+                    });
+                }
+            }
+            await prisma.order.createMany({
+                data: data
+            });
+
+            data = [];
         }
     }
 
@@ -67,18 +91,18 @@ async function createMany(number, batch) {
     };
 }
 
+async function findAll(skip, take) {
+    return prisma.user.findMany({
+        skip: parseInt(skip) || undefined,
+        take: parseInt(take) || undefined
+    });
+}
+
 async function findById(id) {
     return prisma.user.findUnique({
         where: {
             id: parseInt(id)
         }
-    });
-}
-
-async function findAll(skip, take) {
-    return prisma.user.findMany({
-        skip: parseInt(skip) || undefined,
-        take: parseInt(take) || undefined
     });
 }
 
@@ -174,8 +198,8 @@ async function remove(id) {
 module.exports = {
     create: create,
     createMany: createMany,
-    findById: findById,
     findAll: findAll,
+    findById: findById,
     findFollowers: findFollowers,
     findFollowing: findFollowing,
     findPurchases: findPurchases,

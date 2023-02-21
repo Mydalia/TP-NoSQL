@@ -30,6 +30,10 @@ const doc = {
         {
             name: 'Neo4j/Products',
             description: 'Product with neo4j endpoints'
+        },
+        {
+            name: 'Count',
+            description: 'Count endpoints'
         }
     ]
 };

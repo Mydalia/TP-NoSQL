@@ -23,6 +23,10 @@
     {
       "name": "Neo4j/Products",
       "description": "Product with neo4j endpoints"
+    },
+    {
+      "name": "Count",
+      "description": "Count endpoints"
     }
   ],
   "schemes": [
@@ -571,6 +575,56 @@
             "type": "string"
           }
         ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/neo4j/products/": {
+      "post": {
+        "tags": [
+          "Neo4j/Products"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "number": {
+                  "example": "any"
+                },
+                "batch": {
+                  "example": "any"
+                },
+                "email": {
+                  "example": "any"
+                },
+                "name": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        }
+      }
+    },
+    "/counts/": {
+      "get": {
+        "tags": [
+          "Count"
+        ],
+        "description": "",
+        "parameters": [],
         "responses": {
           "200": {
             "description": "OK"

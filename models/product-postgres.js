@@ -13,8 +13,11 @@ async function create(serialNumber, name, price) {
 }
 
 async function createMany(number, batch) {
+    const start = Date.now();
+
     number = parseInt(number);
     batch = parseInt(batch);
+
     let products = [];
     let count = 0;
 
@@ -41,7 +44,17 @@ async function createMany(number, batch) {
         count += result.count;
     }
 
-    return { "count": count };
+    return { 
+        "count": count,
+        "executionTime": Date.now() - start
+    };
+}
+
+async function findAll(skip, take) {
+    return prisma.product.findMany({
+        skip: parseInt(skip) || undefined,
+        take: parseInt(take) || undefined
+    });
 }
 
 async function findById(id) {
@@ -49,13 +62,6 @@ async function findById(id) {
         where: {
             id: parseInt(id)
         }
-    });
-}
-
-async function findAll(skip, take) {
-    return prisma.product.findMany({
-        skip: parseInt(skip) || undefined,
-        take: parseInt(take) || undefined
     });
 }
 
@@ -97,8 +103,8 @@ async function remove(id) {
 module.exports = {
     create: create,
     createMany: createMany,
-    findById: findById,
     findAll: findAll,
+    findById: findById,
     findBuyers: findBuyers,
     update: update,
     remove: remove
