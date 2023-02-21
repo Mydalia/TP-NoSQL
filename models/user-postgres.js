@@ -1,6 +1,6 @@
 const prisma = require('../prisma/prisma-client');
 
-const { v4: uuidv4 } = require('uuid');
+const { randomUUID } = require('crypto');
 
 async function create(email, name) {
     return prisma.user.create({
@@ -22,8 +22,8 @@ async function createMany(number, batch) {
     
     for(let i = 0; i < number; i++) {
         users.push({
-            email: uuidv4() + '@test.com',
-            name: uuidv4()
+            email: randomUUID() + '@test.com',
+            name: randomUUID()
         });
 
         if(users.length === batch) {
@@ -110,7 +110,7 @@ async function findFollowing(id, skip, take) {
     })
 }
 
-async function findPurchase(id, skip, take) {
+async function findPurchases(id, skip, take) {
     return prisma.product.findMany({
         where: {
             buyers: {
@@ -136,20 +136,20 @@ async function update(id, email, name) {
     });
 }
 
-async function follow(id, personToFollowId) {
+async function follow(id, userToFollowId) {
     return prisma.follow.create({
         data: {
             followerId: parseInt(id),
-            followingId: parseInt(personToFollowId)
+            followingId: parseInt(userToFollowId)
         }
     })
 }
 
-async function unfollow(id, personToUnfollowId) {
+async function unfollow(id, userToUnfollowId) {
     return prisma.follow.deleteMany({
         where: {
             followerId: parseInt(id),
-            followingId: parseInt(personToUnfollowId)
+            followingId: parseInt(userToUnfollowId)
         }
     });
 }
@@ -178,10 +178,10 @@ module.exports = {
     findAll: findAll,
     findFollowers: findFollowers,
     findFollowing: findFollowing,
-    findPurchase: findPurchase,
+    findPurchases: findPurchases,
     update: update,
+    remove: remove,
     follow: follow,
     unfollow: unfollow,
-    purchase: purchase,
-    remove: remove
+    purchase: purchase
 };

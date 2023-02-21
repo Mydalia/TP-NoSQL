@@ -1,6 +1,6 @@
 const neo4j = require('../neo4j/neo4j-client');
 
-const { v4: uuidv4 } = require('uuid');
+const { randomUUID } = require('crypto');
 
 async function create(email, name) {
     const session = neo4j.session();
@@ -29,8 +29,8 @@ async function createMany(number, batch) {
     try {
         for(let i = 0; i < number; i++) {
             users.push({
-                email: uuidv4() + '@test.com',
-                name: uuidv4()
+                email: randomUUID() + '@test.com',
+                name: randomUUID()
             });
 
             if(users.length === batch) {

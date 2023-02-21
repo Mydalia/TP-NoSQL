@@ -1,6 +1,6 @@
 const prisma = require('../prisma/prisma-client');
 
-const { v4: uuidv4 } = require('uuid');
+const { randomUUID } = require('crypto');
 
 async function create(serialNumber, name, price) {
     return prisma.product.create({
@@ -20,8 +20,8 @@ async function createMany(number, batch) {
 
     for(let i = 0; i < number; i++) {
         products.push({
-            serialNumber: uuidv4(),
-            name: uuidv4(),
+            serialNumber: randomUUID(),
+            name: randomUUID(),
             price: Math.floor(Math.random() * 1000)
         });
 

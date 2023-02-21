@@ -242,8 +242,39 @@
         }
       }
     },
+    "/postgres/users/{id}/purchases": {
+      "get": {
+        "tags": [
+          "Postgres/Users"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "skip",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "take",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/postgres/users/{id}/follow": {
-      "put": {
+      "post": {
         "tags": [
           "Postgres/Users"
         ],
@@ -261,7 +292,7 @@
             "schema": {
               "type": "object",
               "properties": {
-                "personToFollowId": {
+                "userToFollowId": {
                   "example": "any"
                 }
               }
@@ -276,7 +307,7 @@
       }
     },
     "/postgres/users/{id}/unfollow": {
-      "put": {
+      "delete": {
         "tags": [
           "Postgres/Users"
         ],
@@ -294,7 +325,7 @@
             "schema": {
               "type": "object",
               "properties": {
-                "personToUnfollowId": {
+                "userToUnfollowId": {
                   "example": "any"
                 }
               }
@@ -309,7 +340,7 @@
       }
     },
     "/postgres/users/{id}/purchase": {
-      "put": {
+      "post": {
         "tags": [
           "Postgres/Users"
         ],
