@@ -4,7 +4,7 @@ const noSqlNumberOfUsers = document.getElementById('nosql-number-of-users');
 const noSqlNumberOfProducts = document.getElementById('nosql-number-of-products');
 
 function updateCounts() {
-    fetch('http://localhost:3000/api/counts').then(result => result.json()).then(data => {
+    fetch('http://localhost:3000/api/counts').then((result) => result.json()).then((data) => {
         sgbdNumberOfUsers.innerHTML = data.postgres.users;
         sgbdNumberOfProducts.innerHTML = data.postgres.products;
         noSqlNumberOfUsers.innerHTML = data.neo4j.users;
@@ -32,8 +32,8 @@ sgbdInsertProductBtn.addEventListener('click', () => {
             number: number,
             batch: batch
         })
-    }).then(result => result.json()).then(data => {
-        sgbdResultTime.innerHTML = data.executionTime + ' ms';
+    }).then((result) => result.json()).then((data) => {
+        sgbdResultTime.innerHTML = `${data.executionTime} ms`;
         updateCounts();
     });
 });
@@ -55,8 +55,8 @@ sgbdInsertUserBtn.addEventListener('click', () => {
             number: number,
             batch: batch
         })
-    }).then(result => result.json()).then(data => {
-        sgbdResultTime.innerHTML = data.executionTime + ' ms';
+    }).then((result) => result.json()).then((data) => {
+        sgbdResultTime.innerHTML = `${data.executionTime} ms`;
         updateCounts();
     });
 });
@@ -79,8 +79,8 @@ noSqlInsertProductBtn.addEventListener('click', () => {
             number: number,
             batch: batch
         })
-    }).then(result => result.json()).then(data => {
-        noSqlResultTime.innerHTML = data.executionTime + ' ms';
+    }).then((result) => result.json()).then((data) => {
+        noSqlResultTime.innerHTML = `${data.executionTime} ms`;
         updateCounts();
     });
 });
@@ -102,8 +102,8 @@ noSqlInsertUserBtn.addEventListener('click', () => {
             number: number,
             batch: batch
         })
-    }).then(result => result.json()).then(data => {
-        noSqlResultTime.innerHTML = data.executionTime + ' ms';
+    }).then((result) => result.json()).then((data) => {
+        noSqlResultTime.innerHTML = `${data.executionTime} ms`;
         updateCounts();
     });
 });

@@ -9,6 +9,7 @@ services:
       args:
         NODE_ENV: production
     container_name: app
+    restart: always
     networks:
       - tp-nosql
     ports:
@@ -26,6 +27,7 @@ services:
   postgres:
     image: postgres:latest
     container_name: postgres
+    restart: always
 #    command: ["postgres", "-c", "log_statement=all"]
     networks:
       - tp-nosql
@@ -40,6 +42,7 @@ services:
   neo4j:
     image: neo4j:community
     container_name: neo4j
+    restart: always
     networks:
       - tp-nosql
     ports:
