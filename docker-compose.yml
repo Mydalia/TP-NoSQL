@@ -12,7 +12,7 @@ services:
     networks:
       - tp-nosql
     ports:
-      - 8080:3000
+      - 3000:3000
     environment:
       NODE_ENV: production
       POSTGRES_URI: "postgresql://postgres:password@postgres:5432/tp-nosql?schema=public"
