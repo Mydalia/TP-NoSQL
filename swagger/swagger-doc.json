@@ -27,6 +27,10 @@
     {
       "name": "Count",
       "description": "Count endpoints"
+    },
+    {
+      "name": "Seed",
+      "description": "Seed endpoints"
     }
   ],
   "schemes": [
@@ -810,6 +814,9 @@
     },
     "/seed/": {
       "get": {
+        "tags": [
+          "Seed"
+        ],
         "description": "",
         "parameters": [],
         "responses": {

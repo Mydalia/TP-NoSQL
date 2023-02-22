@@ -256,17 +256,14 @@ async function getProductsByFollowersAndProduct(userId, productId, maxLevels) {
             UNION
             SELECT ${parseInt(userId)} AS follower_id
         )
-        SELECT p.serial_number, p.name, p.price, COUNT(o.id) AS count
+        SELECT COUNT(o.id) AS count
         FROM unique_followers 
         INNER JOIN "order" o ON unique_followers.follower_id = o.buyer_id
-        INNER JOIN product p ON o.product_id = p.id
-        WHERE p.id = ${parseInt(productId)}
-        GROUP BY p.id
+        WHERE o.product_id = ${parseInt(productId)}
     `;
-    result.forEach((product) => product.count = parseInt(product.count));
 
     return {
-        count: result[0].count || 0,
+        count: parseInt(result[0].count) || 0,
         executionTime: Date.now() - start
     };
 }

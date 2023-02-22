@@ -411,6 +411,7 @@ async function seed() {
 }
 
 router.get('/', async(req, res, next) => {
+    // #swagger.tags = ['Seed']
     try {
         await seed();
         res.status(200).json({

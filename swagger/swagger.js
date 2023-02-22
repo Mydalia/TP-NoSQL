@@ -34,6 +34,10 @@ const doc = {
         {
             name: 'Count',
             description: 'Count endpoints'
+        },
+        {
+            name: 'Seed',
+            description: 'Seed endpoints'
         }
     ]
 };
