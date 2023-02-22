@@ -126,68 +126,43 @@ async function createMany(number, batch) {
 // "Obtenir la liste et le nombre des produits commandés par les cercles de followers d’un individu (niveau 1, ..., niveau n)"
 async function getProductsByFollowers(userId, maxLevels) {
     const query = `
-      MATCH (u:User) WHERE id(u) = $userId
-      MATCH (follower)-[f:FOLLOWS*1..$maxLevels]->(u)
+      MATCH (u:User) WHERE id(u) = ${parseInt(userId)}
+      MATCH (follower)-[f:FOLLOWS*1..${parseInt(maxLevels)}]->(u)
       WITH DISTINCT follower
       MATCH (follower)-[:BOUGHT]->(p:Product)
       RETURN p, COUNT(p) as count
     `;
-    const params = { userId: userId, maxLevels: maxLevels };
 
     const session = neo4j.session();
-    const result = await session.run(query, params);
+    const result = await session.run(query);
     await session.close();
 
     return result.records.map((record) => ({
         product: record.get('p').properties,
-        count: record.get('count')
+        count: record.get('count').low
     }));
 }
 
 // Même requête mais avec spécification d’un produit particulier
-async function getProductsByFollowerAndProduct(userId, productId, maxLevels) {
+async function getProductsByFollowersAndProduct(userId, productId, maxLevels) {
     const query = `
-      MATCH (u:User) WHERE id(u) = $userId
-      MATCH (follower)-[f:FOLLOWS*1..$maxLevels]->(u)
+      MATCH (u:User) WHERE id(u) = ${parseInt(userId)}
+      MATCH (follower)-[f:FOLLOWS*1..${parseInt(maxLevels)}]->(u)
       WITH DISTINCT follower
-      MATCH (follower)-[:BOUGHT]->(p:Product) WHERE id(p) = $productId
+      MATCH (follower)-[:BOUGHT]->(p:Product) WHERE id(p) = ${parseInt(productId)}
       RETURN COUNT(p) as count
     `;
-    const params = { userId: userId, productId: productId, maxLevels: maxLevels };
 
     const session = neo4j.session();
-    const result = await session.run(query, params);
+    const result = await session.run(query);
     await session.close();
 
-    return result.records[0].get('count');
-}
-
-
-// Pour une référence de produit donné, obtenir le nombre de personnes l’ayant commandé dans un cercle de followers « orienté » de niveau n
-async function getFollowersByProduct(productId, userId, maxLevels) {
-    const query = `
-      MATCH (u:User) WHERE id(u) = $userId
-      MATCH (follower)-[f:FOLLOWS*1..$maxLevels]->(u)
-      WITH DISTINCT follower
-      MATCH (follower)-[:BOUGHT]->(p:Product) WHERE id(p) = $productId
-      RETURN COUNT(DISTINCT follower) as count
-    `;
-    const params = { productId: productId, userId: userId, maxLevels: maxLevels };
-
-    const session = neo4j.session();
-    const result = await session.run(query, params);
-    await session.close();
-
-    return result.records.map((record) => ({
-        userId: record.get('userId'),
-        count: record.get('count')
-    }));
+    return { count: result.records[0].get('count').low };
 }
 
 module.exports = {
     create: create,
     createMany: createMany,
     getProductsByFollowers: getProductsByFollowers,
-    getProductsByFollowerAndProduct: getProductsByFollowerAndProduct,
-    getFollowersByProduct: getFollowersByProduct
+    getProductsByFollowersAndProduct: getProductsByFollowersAndProduct
 };
