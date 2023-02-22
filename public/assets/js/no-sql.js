@@ -1,65 +1,14 @@
-const sgbdNumberOfUsers = document.getElementById('sgbd-number-of-users');
-const sgbdNumberOfProducts = document.getElementById('sgbd-number-of-products');
 const noSqlNumberOfUsers = document.getElementById('nosql-number-of-users');
 const noSqlNumberOfProducts = document.getElementById('nosql-number-of-products');
 
 function updateCounts() {
     fetch('http://localhost:3000/api/counts').then((result) => result.json()).then((data) => {
-        sgbdNumberOfUsers.innerHTML = data.postgres.users;
-        sgbdNumberOfProducts.innerHTML = data.postgres.products;
         noSqlNumberOfUsers.innerHTML = data.neo4j.users;
         noSqlNumberOfProducts.innerHTML = data.neo4j.products;
     });
 }
 
 updateCounts();
-
-const sgbdInsertProductNumber = document.getElementById('sgbd-insert-product-number');
-const sgbdInsertProductBatch = document.getElementById('sgbd-insert-product-batch');
-const sgbdInsertProductBtn = document.getElementById('sgbd-insert-product-btn');
-const sgbdResultTime = document.getElementById('sgbd-result-time');
-
-sgbdInsertProductBtn.addEventListener('click', () => {
-    const number = sgbdInsertProductNumber.value;
-    const batch = sgbdInsertProductBatch.value;
-
-    fetch('http://localhost:3000/api/postgres/products/', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            number: number,
-            batch: batch
-        })
-    }).then((result) => result.json()).then((data) => {
-        sgbdResultTime.innerHTML = `${data.executionTime} ms`;
-        updateCounts();
-    });
-});
-
-const sgbdInsertUserNumber = document.getElementById('sgbd-insert-user-number');
-const sgbdInsertUserBatch = document.getElementById('sgbd-insert-user-batch');
-const sgbdInsertUserBtn = document.getElementById('sgbd-insert-user-btn');
-
-sgbdInsertUserBtn.addEventListener('click', () => {
-    const number = sgbdInsertUserNumber.value;
-    const batch = sgbdInsertUserBatch.value;
-
-    fetch('http://localhost:3000/api/postgres/users/', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            number: number,
-            batch: batch
-        })
-    }).then((result) => result.json()).then((data) => {
-        sgbdResultTime.innerHTML = `${data.executionTime} ms`;
-        updateCounts();
-    });
-});
 
 const noSqlInsertProductNumber = document.getElementById('nosql-insert-product-number');
 const noSqlInsertProductBatch = document.getElementById('nosql-insert-product-batch');
@@ -105,5 +54,95 @@ noSqlInsertUserBtn.addEventListener('click', () => {
     }).then((result) => result.json()).then((data) => {
         noSqlResultTime.innerHTML = `${data.executionTime} ms`;
         updateCounts();
+    });
+});
+
+const noSqlGetProductsByFollowersIdUser = document.getElementById('nosql-get-products-by-followers-iduser');
+const noSqlGetProductsByFollowersDepth = document.getElementById('nosql-get-products-by-followers-depth');
+const noSqlGetProductsByFollowersBtn = document.getElementById('nosql-get-products-by-followers-btn');
+const noSqlResult = document.getElementById('nosql-result');
+
+noSqlGetProductsByFollowersBtn.addEventListener('click', () => {
+    const idUser = noSqlGetProductsByFollowersIdUser.value;
+    const depth = noSqlGetProductsByFollowersDepth.value;
+
+    fetch(`http://localhost:3000/api/neo4j/users/${idUser}/getProductsByFollowers?maxLevels=${depth}`).then((result) => result.json()).then((data) => {
+        noSqlResultTime.innerHTML = `${data.executionTime} ms`;
+        noSqlResult.innerHTML = `
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Product</th>
+                        <th scope="col">Count</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${data.products.map((p) => ` 
+                        <tr>
+                            <td>${p.product.name}</td>
+                            <td>${p.count}</td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>
+        `;
+    });
+});
+
+const noSqlGetProductByFollowersIdUser = document.getElementById('nosql-get-product-by-followers-iduser');
+const noSqlGetProductByFollowersIdProduct = document.getElementById('nosql-get-product-by-followers-id-product');
+const noSqlGetProductByFollowersDepth = document.getElementById('nosql-get-product-by-followers-depth');
+const noSqlGetProductByFollowersBtn = document.getElementById('nosql-get-product-by-followers-btn');
+
+noSqlGetProductByFollowersBtn.addEventListener('click', () => {
+    const idUser = noSqlGetProductByFollowersIdUser.value;
+    const idProduct = noSqlGetProductByFollowersIdProduct.value;
+    const depth = noSqlGetProductByFollowersDepth.value;
+
+    fetch(`http://localhost:3000/api/neo4j/users/${idUser}/getProductsByFollowersAndProduct?productId=${idProduct}&maxLevels=${depth}`).then((result) => result.json()).then((data) => {
+        noSqlResultTime.innerHTML = `${data.executionTime} ms`;
+        noSqlResult.innerHTML = `
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Count</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>${data.count}</td>
+                    </tr>
+                </tbody>
+            </table>
+        `;
+    });
+});
+
+const noSqlGetFollowersByProductIdUser = document.getElementById('nosql-get-followers-by-product-id-user');
+const noSqlGetFollowersByProductIdProduct = document.getElementById('nosql-get-followers-by-product-id-product');
+const noSqlGetFollowersByProductDepth = document.getElementById('nosql-get-followers-by-product-depth');
+const noSqlGetFollowersByProductBtn = document.getElementById('nosql-get-followers-by-product-btn');
+
+noSqlGetFollowersByProductBtn.addEventListener('click', () => {
+    const idUser = noSqlGetFollowersByProductIdUser.value;
+    const idProduct = noSqlGetFollowersByProductIdProduct.value;
+    const depth = noSqlGetFollowersByProductDepth.value;
+
+    fetch(`http://localhost:3000/api/neo4j/products/${idProduct}/getFollowersByProduct?userId=${idUser}&maxLevels=${depth}`).then((result) => result.json()).then((data) => {
+        noSqlResultTime.innerHTML = `${data.executionTime} ms`;
+        noSqlResult.innerHTML = `
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Count</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>${data.count}</td>
+                    </tr>
+                </tbody>
+            </table>
+        `;
     });
 });

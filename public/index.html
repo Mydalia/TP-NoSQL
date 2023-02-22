@@ -42,7 +42,7 @@
                                         <div class="col"><span style="text-align: center;text-decoration: underline;">Nombre d'utilisateurs :</span></div>
                                     </div>
                                     <div class="row">
-                                        <div class="col"><span id="sgbd-number-of-users">Text</span></div>
+                                        <div class="col"><span id="sgbd-number-of-users"></span></div>
                                     </div>
                                 </div>
                             </div>
@@ -52,7 +52,7 @@
                                 <div class="col"><span style="text-decoration: underline;">Nombre de produits :</span></div>
                             </div>
                             <div class="row">
-                                <div class="col"><span id="sgbd-number-of-products">Text</span></div>
+                                <div class="col"><span id="sgbd-number-of-products"></span></div>
                             </div>
                         </div>
                     </div>
@@ -112,8 +112,8 @@
                         <h3 class="text-center post-subtitle">Result</h3>
                         <hr>
                     </div>
-                    <div><span>Temps d'exécution :</span><span id="sgbd-result-time">Time</span></div>
-                    <div><span id="sgbd-result">Result</span></div>
+                    <div><span>Temps d'exécution :&nbsp;</span><span id="sgbd-result-time"></span></div>
+                    <div><span id="sgbd-result"></span></div>
                 </div>
             </div>
             <div class="col-md-10 col-lg-8 col-xl-6">
@@ -129,7 +129,7 @@
                                         <div class="col"><span style="text-align: center;text-decoration: underline;">Nombre d'utilisateurs :</span></div>
                                     </div>
                                     <div class="row">
-                                        <div class="col"><span id="nosql-number-of-users">Text</span></div>
+                                        <div class="col"><span id="nosql-number-of-users"></span></div>
                                     </div>
                                 </div>
                             </div>
@@ -139,7 +139,7 @@
                                 <div class="col"><span style="text-decoration: underline;">Nombre de produits :</span></div>
                             </div>
                             <div class="row">
-                                <div class="col"><span id="nosql-number-of-products">Text</span></div>
+                                <div class="col"><span id="nosql-number-of-products"></span></div>
                             </div>
                         </div>
                     </div>
@@ -175,7 +175,7 @@
                     <div><span style="font-family: 'Open Sans', sans-serif;font-size: 18px;">Id de l'utilisateur :&nbsp;<input type="number" id="nosql-get-products-by-followers-iduser"></span></div>
                     <div><span style="font-family: 'Open Sans', sans-serif;font-size: 18px;">Niveau de profondeur :&nbsp;<input type="number" id="nosql-get-products-by-followers-depth"></span></div>
                     <div class="d-xl-flex">
-                        <div class="col offset-xl-9"><button class="btn btn-primary d-xl-flex align-items-xl-center" id="nosql-insert-get-btn" type="button" style="background: rgb(133,138,139);height: 40px;">Envoyer</button></div>
+                        <div class="col offset-xl-9"><button class="btn btn-primary d-xl-flex align-items-xl-center" id="nosql-get-products-by-followers-btn" type="button" style="background: rgb(133,138,139);height: 40px;">Envoyer</button></div>
                     </div>
                 </div>
                 <div class="post-preview"><strong class="text-center" style="color: var(--bs-black);font-family: 'Open Sans', sans-serif;text-decoration: underline;font-size: 20px;">Récupère un produit spécifique commandé par les followers :</strong>
@@ -187,7 +187,7 @@
                     </div>
                 </div>
                 <div class="post-preview"><strong class="text-center" style="color: var(--bs-black);font-family: 'Open Sans', sans-serif;text-decoration: underline;font-size: 20px;">Récupère les utilisateurs ayant achetés un produit spécifique :</strong>
-                    <div><span style="font-family: 'Open Sans', sans-serif;font-size: 18px;">Id de l'utilisateur :&nbsp;<input type="number" id="sgbd-get-followers-by-product-id-user-1"></span></div>
+                    <div><span style="font-family: 'Open Sans', sans-serif;font-size: 18px;">Id de l'utilisateur :&nbsp;<input type="number" id="nosql-get-followers-by-product-id-user"></span></div>
                     <div><span style="font-family: 'Open Sans', sans-serif;font-size: 18px;">Id du produit :&nbsp;<input type="number" id="nosql-get-followers-by-product-id-product"></span></div>
                     <div><span style="font-family: 'Open Sans', sans-serif;font-size: 18px;">Niveau de profondeur :&nbsp;<input type="number" id="nosql-get-followers-by-product-depth"></span></div>
                     <div class="d-xl-flex">
@@ -199,8 +199,8 @@
                         <h3 class="text-center post-subtitle">Result</h3>
                         <hr>
                     </div>
-                    <div><span>Temps d'exécution :</span><span id="nosql-result-time">Time</span></div>
-                    <div><span id="nosql-result">Result</span></div>
+                    <div><span>Temps d'exécution :&nbsp;</span><span id="nosql-result-time"></span></div>
+                    <div><span id="nosql-result"></span></div>
                 </div>
             </div>
         </div>
@@ -220,6 +220,7 @@
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/js/clean-blog.js"></script>
     <script src="assets/js/no-sql.js"></script>
+    <script src="assets/js/sgbd.js"></script>
 </body>
 
 </html>
