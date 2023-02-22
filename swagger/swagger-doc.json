@@ -376,6 +376,63 @@
         }
       }
     },
+    "/postgres/users/{id}/getProductsByFollowers": {
+      "get": {
+        "tags": [
+          "Postgres/Users"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "maxLevels",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/postgres/users/{id}/getProductsByFollowersAndProduct": {
+      "get": {
+        "tags": [
+          "Postgres/Users"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "productId",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "maxLevels",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/neo4j/users/": {
       "post": {
         "tags": [
@@ -639,6 +696,37 @@
         }
       }
     },
+    "/postgres/products/{id}/getFollowersByProduct": {
+      "get": {
+        "tags": [
+          "Postgres/Products"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "userId",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "maxLevels",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/neo4j/products/": {
       "post": {
         "tags": [
@@ -711,6 +799,17 @@
         "tags": [
           "Count"
         ],
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/seed/": {
+      "get": {
         "description": "",
         "parameters": [],
         "responses": {

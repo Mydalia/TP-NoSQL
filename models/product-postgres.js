@@ -100,6 +100,11 @@ async function remove(id) {
     });
 }
 
+// Pour une référence de produit donné, obtenir le nombre de personnes l’ayant commandé dans un cercle de followers « orienté » de niveau n
+async function getFollowersByProduct(productId, userId, maxLevels) {
+
+}
+
 module.exports = {
     create: create,
     createMany: createMany,
@@ -107,5 +112,6 @@ module.exports = {
     findById: findById,
     findBuyers: findBuyers,
     update: update,
-    remove: remove
+    remove: remove,
+    getFollowersByProduct: getFollowersByProduct
 };

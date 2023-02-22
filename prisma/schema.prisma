@@ -16,6 +16,8 @@ model User {
   followers Follow[] @relation("following")
   following Follow[] @relation("followers")
   purchases Order[]
+
+  @@map("user")
 }
 
 model Product {
@@ -26,6 +28,8 @@ model Product {
   createdAt    DateTime @default(now()) @map("created_at")
   updatedAt    DateTime @updatedAt @map("updated_at")
   buyers       Order[]
+
+  @@map("product")
 }
 
 // Relation table //
@@ -33,11 +37,13 @@ model Product {
 model Follow {
   id          Int      @id @default(autoincrement())
   follower    User     @relation("followers", fields: [followerId], references: [id])
-  followerId  Int
+  followerId  Int      @map("follower_id")
   following   User     @relation("following", fields: [followingId], references: [id])
-  followingId Int
+  followingId Int      @map("following_id")
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("follow")
 }
 
 model Order {
@@ -48,4 +54,6 @@ model Order {
   productId Int      @map("product_id")
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("order")
 }

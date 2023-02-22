@@ -62,10 +62,13 @@ async function createMany(number, batch) {
                 if (Math.random() > 0.5) {
                     const numberOfFollowers = Math.floor(Math.random() * 20) + 1;
                     for (let k = 0; k < numberOfFollowers; k++) {
-                        data.push({
-                            followingId: result.records[j].get(0).identity.low,
-                            followerId: result.records[Math.floor(Math.random() * result.records.length)].get(0).identity.low
-                        });
+                        const randomUserId = result.records[Math.floor(Math.random() * result.records.length)].get(0).identity.low;
+                        if (randomUserId !== result.records[j].get(0).identity.low) {
+                            data.push({
+                                followingId: result.records[j].get(0).identity.low,
+                                followerId: randomUserId
+                            });
+                        }
                     }
                 }
             }
@@ -129,7 +132,7 @@ async function getProductsByFollowers(userId, maxLevels) {
 
     const query = `
       MATCH (u:User) WHERE id(u) = ${parseInt(userId)}
-      MATCH (follower)-[f:FOLLOWS*1..${parseInt(maxLevels)}]->(u)
+      MATCH (follower)-[f:FOLLOWS*0..${parseInt(maxLevels)}]->(u)
       WITH DISTINCT follower
       MATCH (follower)-[:BOUGHT]->(p:Product)
       RETURN p, COUNT(p) as count
@@ -154,7 +157,7 @@ async function getProductsByFollowersAndProduct(userId, productId, maxLevels) {
 
     const query = `
       MATCH (u:User) WHERE id(u) = ${parseInt(userId)}
-      MATCH (follower)-[f:FOLLOWS*1..${parseInt(maxLevels)}]->(u)
+      MATCH (follower)-[f:FOLLOWS*0..${parseInt(maxLevels)}]->(u)
       WITH DISTINCT follower
       MATCH (follower)-[:BOUGHT]->(p:Product) WHERE id(p) = ${parseInt(productId)}
       RETURN COUNT(p) as count

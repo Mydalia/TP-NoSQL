@@ -49,10 +49,13 @@ async function createMany(number, batch) {
                 if (Math.random() > 0.5) {
                     const numberOfFollowers = Math.floor(Math.random() * 20) + 1;
                     for (let k = 0; k < numberOfFollowers; k++) {
-                        data.push({
-                            followingId: userId,
-                            followerId: Math.floor(Math.random() * (lastInsertedId + batch - lastInsertedId) + lastInsertedId)
-                        });
+                        const randomUserId = Math.floor(Math.random() * (lastInsertedId + batch - lastInsertedId) + lastInsertedId);
+                        if (randomUserId !== userId) {
+                            data.push({
+                                followingId: userId,
+                                followerId: randomUserId
+                            });
+                        }
                     }
                 }
             }
@@ -201,25 +204,29 @@ async function remove(id) {
 
 // "Obtenir la liste et le nombre des produits commandés par les cercles de followers d’un individu (niveau 1, ..., niveau n)"
 async function getProductsByFollowers(userId, maxLevels) {
-    // return prisma.product.findMany({
-    //     where: {
-    //         buyers: {
-    //             some: {
-    //                 buyer: {
-    //                     following: {
-    //                         some: {
-    //                             following: {
-    //                                 id: parseInt(userId),
-    //                                 following: {
-    //                                     some: {
-    //                                         following
-    //                         }
-    //                     }
-    //                 }
-    //             }
-    //         }
-    //     }
-    // });
+    const result = await prisma.$queryRaw`
+        WITH RECURSIVE followers AS (
+            SELECT id, following_id, follower_id, 1 AS level 
+            FROM follow
+            WHERE following_id = ${parseInt(userId)}
+            UNION ALL
+            SELECT f.id, f.following_id, f.follower_id, followers.level + 1
+            FROM follow f
+            INNER JOIN followers ON f.following_id = followers.follower_id
+            WHERE followers.level < ${parseInt(maxLevels)}
+        )
+        SELECT * FROM followers;
+        -- SELECT p.id, p.serial_number, p.name, p.price, p.created_at, p.updated_at, COUNT(o.id) AS count
+        -- FROM followers
+        -- INNER JOIN "order" o ON followers.follower_id = o.buyer_id
+        -- INNER JOIN product p ON o.product_id = p.id
+        -- GROUP BY p.id
+        -- ORDER BY count DESC;
+    `;
+
+    result.forEach((product) => product.count = parseInt(product.count));
+
+    return result;
 }
 
 // Même requête mais avec spécification d’un produit particulier

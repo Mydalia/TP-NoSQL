@@ -70,7 +70,7 @@ async function getFollowersByProduct(productId, userId, maxLevels) {
 
     const query = `
       MATCH (u:User) WHERE id(u) = ${parseInt(userId)}
-      MATCH (follower)-[f:FOLLOWS*1..${parseInt(maxLevels)}]->(u)
+      MATCH (follower)-[f:FOLLOWS*0..${parseInt(maxLevels)}]->(u)
       WITH DISTINCT follower
       MATCH (follower)-[:BOUGHT]->(p:Product) WHERE id(p) = ${parseInt(productId)}
       RETURN COUNT(DISTINCT follower) as count
