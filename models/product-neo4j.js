@@ -66,6 +66,8 @@ async function createMany(number, batch) {
 
 // Pour une référence de produit donné, obtenir le nombre de personnes l’ayant commandé dans un cercle de followers « orienté » de niveau n
 async function getFollowersByProduct(productId, userId, maxLevels) {
+    const start = Date.now();
+
     const query = `
       MATCH (u:User) WHERE id(u) = ${parseInt(userId)}
       MATCH (follower)-[f:FOLLOWS*1..${parseInt(maxLevels)}]->(u)
@@ -78,7 +80,10 @@ async function getFollowersByProduct(productId, userId, maxLevels) {
     const result = await session.run(query);
     await session.close();
 
-    return { count: result.records[0].get('count').low };
+    return {
+        count: result.records[0].get('count').low,
+        executionTime: Date.now() - start
+    };
 }
 
 module.exports = {

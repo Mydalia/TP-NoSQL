@@ -199,6 +199,34 @@ async function remove(id) {
     });
 }
 
+// "Obtenir la liste et le nombre des produits commandés par les cercles de followers d’un individu (niveau 1, ..., niveau n)"
+async function getProductsByFollowers(userId, maxLevels) {
+    // return prisma.product.findMany({
+    //     where: {
+    //         buyers: {
+    //             some: {
+    //                 buyer: {
+    //                     following: {
+    //                         some: {
+    //                             following: {
+    //                                 id: parseInt(userId),
+    //                                 following: {
+    //                                     some: {
+    //                                         following
+    //                         }
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //     }
+    // });
+}
+
+// Même requête mais avec spécification d’un produit particulier
+async function getProductsByFollowersAndProduct(userId, productId, maxLevels) {
+
+}
+
 module.exports = {
     create: create,
     createMany: createMany,
@@ -208,8 +236,10 @@ module.exports = {
     findFollowing: findFollowing,
     findPurchases: findPurchases,
     update: update,
-    remove: remove,
     follow: follow,
     unfollow: unfollow,
-    purchase: purchase
+    purchase: purchase,
+    remove: remove,
+    getProductsByFollowers: getProductsByFollowers,
+    getProductsByFollowersAndProduct: getProductsByFollowersAndProduct
 };

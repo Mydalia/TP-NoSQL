@@ -125,6 +125,8 @@ async function createMany(number, batch) {
 
 // "Obtenir la liste et le nombre des produits commandés par les cercles de followers d’un individu (niveau 1, ..., niveau n)"
 async function getProductsByFollowers(userId, maxLevels) {
+    const start = Date.now();
+
     const query = `
       MATCH (u:User) WHERE id(u) = ${parseInt(userId)}
       MATCH (follower)-[f:FOLLOWS*1..${parseInt(maxLevels)}]->(u)
@@ -137,14 +139,19 @@ async function getProductsByFollowers(userId, maxLevels) {
     const result = await session.run(query);
     await session.close();
 
-    return result.records.map((record) => ({
-        product: record.get('p').properties,
-        count: record.get('count').low
-    }));
+    return {
+        products: result.records.map((record) => ({
+            product: record.get('p').properties,
+            count: record.get('count').low
+        })),
+        executionTime: Date.now() - start
+    };
 }
 
 // Même requête mais avec spécification d’un produit particulier
 async function getProductsByFollowersAndProduct(userId, productId, maxLevels) {
+    const start = Date.now();
+
     const query = `
       MATCH (u:User) WHERE id(u) = ${parseInt(userId)}
       MATCH (follower)-[f:FOLLOWS*1..${parseInt(maxLevels)}]->(u)
@@ -157,7 +164,10 @@ async function getProductsByFollowersAndProduct(userId, productId, maxLevels) {
     const result = await session.run(query);
     await session.close();
 
-    return { count: result.records[0].get('count').low };
+    return {
+        count: result.records[0].get('count').low,
+        executionTime: Date.now() - start
+    };
 }
 
 module.exports = {
