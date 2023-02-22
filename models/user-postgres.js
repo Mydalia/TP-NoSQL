@@ -204,9 +204,11 @@ async function remove(id) {
 
 // "Obtenir la liste et le nombre des produits commandés par les cercles de followers d’un individu (niveau 1, ..., niveau n)"
 async function getProductsByFollowers(userId, maxLevels) {
+    const start = Date.now();
+
     const result = await prisma.$queryRaw`
         WITH RECURSIVE followers AS (
-            SELECT id, following_id, follower_id, 1 AS level 
+            SELECT id, following_id, follower_id, 1 AS level
             FROM follow
             WHERE following_id = ${parseInt(userId)}
             UNION ALL
@@ -214,24 +216,59 @@ async function getProductsByFollowers(userId, maxLevels) {
             FROM follow f
             INNER JOIN followers ON f.following_id = followers.follower_id
             WHERE followers.level < ${parseInt(maxLevels)}
+        ),
+        unique_followers AS (
+            SELECT DISTINCT follower_id FROM followers
+            UNION
+            SELECT ${parseInt(userId)} AS follower_id
         )
-        SELECT * FROM followers;
-        -- SELECT p.id, p.serial_number, p.name, p.price, p.created_at, p.updated_at, COUNT(o.id) AS count
-        -- FROM followers
-        -- INNER JOIN "order" o ON followers.follower_id = o.buyer_id
-        -- INNER JOIN product p ON o.product_id = p.id
-        -- GROUP BY p.id
-        -- ORDER BY count DESC;
+        SELECT p.serial_number, p.name, p.price, COUNT(o.id) AS count
+        FROM unique_followers
+        INNER JOIN "order" o ON unique_followers.follower_id = o.buyer_id
+        INNER JOIN product p ON o.product_id = p.id
+        GROUP BY p.id
     `;
-
     result.forEach((product) => product.count = parseInt(product.count));
 
-    return result;
+    return {
+        products: result,
+        executionTime: Date.now() - start
+    };
 }
 
 // Même requête mais avec spécification d’un produit particulier
 async function getProductsByFollowersAndProduct(userId, productId, maxLevels) {
+    const start = Date.now();
 
+    const result = await prisma.$queryRaw`
+        WITH RECURSIVE followers AS (
+            SELECT id, following_id, follower_id, 1 AS level
+            FROM follow
+            WHERE following_id = ${parseInt(userId)}
+            UNION ALL
+            SELECT f.id, f.following_id, f.follower_id, followers.level + 1
+            FROM follow f
+            INNER JOIN followers ON f.following_id = followers.follower_id
+            WHERE followers.level < ${parseInt(maxLevels)}
+        ),
+        unique_followers AS (
+            SELECT DISTINCT follower_id FROM followers
+            UNION
+            SELECT ${parseInt(userId)} AS follower_id
+        )
+        SELECT p.serial_number, p.name, p.price, COUNT(o.id) AS count
+        FROM unique_followers 
+        INNER JOIN "order" o ON unique_followers.follower_id = o.buyer_id
+        INNER JOIN product p ON o.product_id = p.id
+        WHERE p.id = ${parseInt(productId)}
+        GROUP BY p.id
+    `;
+    result.forEach((product) => product.count = parseInt(product.count));
+
+    return {
+        count: result[0].count || 0,
+        executionTime: Date.now() - start
+    };
 }
 
 module.exports = {

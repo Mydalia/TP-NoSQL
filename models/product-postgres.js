@@ -102,7 +102,34 @@ async function remove(id) {
 
 // Pour une référence de produit donné, obtenir le nombre de personnes l’ayant commandé dans un cercle de followers « orienté » de niveau n
 async function getFollowersByProduct(productId, userId, maxLevels) {
+    const start = Date.now();
 
+    const result = await prisma.$queryRaw`
+        WITH RECURSIVE followers AS (
+            SELECT id, following_id, follower_id, 1 AS level
+            FROM follow
+            WHERE following_id = ${parseInt(userId)}
+            UNION ALL
+            SELECT f.id, f.following_id, f.follower_id, followers.level + 1
+            FROM follow f
+            INNER JOIN followers ON f.following_id = followers.follower_id
+            WHERE followers.level < ${parseInt(maxLevels)}
+        ),
+        unique_followers AS (
+            SELECT DISTINCT follower_id FROM followers
+            UNION
+            SELECT ${parseInt(userId)} AS follower_id
+        )
+        SELECT COUNT(DISTINCT o.buyer_id) AS count
+        FROM unique_followers
+        INNER JOIN "order" o ON unique_followers.follower_id = o.buyer_id
+        WHERE o.product_id = ${parseInt(productId)}
+    `;
+
+    return {
+        count: parseInt(result[0].count) || 0,
+        executionTime: Date.now() - start
+    };
 }
 
 module.exports = {

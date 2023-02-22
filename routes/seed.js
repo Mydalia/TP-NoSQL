@@ -203,6 +203,10 @@ async function seed() {
         },
         {
             buyerId: postgresUsersIds[2],
+            productId: postgresProductsIds[0]
+        },
+        {
+            buyerId: postgresUsersIds[2],
             productId: postgresProductsIds[1]
         },
         {
@@ -219,6 +223,14 @@ async function seed() {
         },
         {
             buyerId: postgresUsersIds[8],
+            productId: postgresProductsIds[0]
+        },
+        {
+            buyerId: postgresUsersIds[9],
+            productId: postgresProductsIds[0]
+        },
+        {
+            buyerId: postgresUsersIds[9],
             productId: postgresProductsIds[0]
         },
         {
@@ -335,6 +347,10 @@ async function seed() {
         },
         {
             userId: neo4jUsersIds[2],
+            productId: neo4jProductsIds[0]
+        },
+        {
+            userId: neo4jUsersIds[2],
             productId: neo4jProductsIds[1]
         },
         {
@@ -351,6 +367,14 @@ async function seed() {
         },
         {
             userId: neo4jUsersIds[8],
+            productId: neo4jProductsIds[0]
+        },
+        {
+            userId: neo4jUsersIds[9],
+            productId: neo4jProductsIds[0]
+        },
+        {
+            userId: neo4jUsersIds[9],
             productId: neo4jProductsIds[0]
         },
         {
