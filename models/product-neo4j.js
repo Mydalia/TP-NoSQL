@@ -86,8 +86,16 @@ async function getFollowersByProduct(productId, userId, maxLevels) {
     };
 }
 
+async function findAll10() {
+    const session = neo4j.session();
+    const result = await session.run('MATCH (p:Product) RETURN p LIMIT 10');
+    await session.close();
+    return result.records.map(record => record.get(0).properties);
+}
+
 module.exports = {
     create: create,
     createMany: createMany,
-    getFollowersByProduct: getFollowersByProduct
+    getFollowersByProduct: getFollowersByProduct,
+    findAll10: findAll10
 };

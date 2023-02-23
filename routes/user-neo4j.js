@@ -16,6 +16,15 @@ router.post('/', async(req, res, next) => {
     }
 });
 
+router.get('/', async(req, res, next) => {
+    // #swagger.tags = ['Neo4j/Users']
+    try {
+        res.status(200).json(await users.findAll10(req.query.skip, req.query.take));
+    } catch (e) {
+        next(e);
+    }
+});
+
 router.get('/:id/getProductsByFollowers', async(req, res, next) => {
     // #swagger.tags = ['Neo4j/Users']
     try {

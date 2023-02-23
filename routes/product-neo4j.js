@@ -29,4 +29,13 @@ router.get('/:id/getFollowersByProduct', async(req, res, next) => {
     }
 });
 
+router.get('/', async(req, res, next) => {
+    // #swagger.tags = ['Neo4j/Products']
+    try {
+        res.status(200).json(await products.findAll10(req.query.skip, req.query.take));
+    } catch (e) {
+        next(e);
+    }
+});
+
 module.exports = router;

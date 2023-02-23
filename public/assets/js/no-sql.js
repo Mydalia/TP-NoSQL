@@ -1,15 +1,3 @@
-const noSqlNumberOfUsers = document.getElementById('nosql-number-of-users');
-const noSqlNumberOfProducts = document.getElementById('nosql-number-of-products');
-
-function updateCounts() {
-    fetch('http://localhost:3000/api/counts').then((result) => result.json()).then((data) => {
-        noSqlNumberOfUsers.innerHTML = data.neo4j.users;
-        noSqlNumberOfProducts.innerHTML = data.neo4j.products;
-    });
-}
-
-updateCounts();
-
 const noSqlInsertProductNumber = document.getElementById('nosql-insert-product-number');
 const noSqlInsertProductBatch = document.getElementById('nosql-insert-product-batch');
 const noSqlInsertProductBtn = document.getElementById('nosql-insert-product-btn');

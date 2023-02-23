@@ -6,68 +6,68 @@ const neo4j = require('../neo4j/neo4j-client');
 
 const { randomUUID } = require('crypto');
 
-const users = [
-    {
-        name: 'User1',
-        email: `User1@${randomUUID()}.com`
-    },
-    {
-        name: 'User2',
-        email: `User2@${randomUUID()}.com`
-    },
-    {
-        name: 'User3',
-        email: `User3@${randomUUID()}.com`
-    },
-    {
-        name: 'User4',
-        email: `User4@${randomUUID()}.com`
-    },
-    {
-        name: 'User5',
-        email: `User5@${randomUUID()}.com`
-    },
-    {
-        name: 'User6',
-        email: `User6@${randomUUID()}.com`
-    },
-    {
-        name: 'User7',
-        email: `User7@${randomUUID()}.com`
-    },
-    {
-        name: 'User8',
-        email: `User8@${randomUUID()}.com`
-    },
-    {
-        name: 'User9',
-        email: `User9@${randomUUID()}.com`
-    },
-    {
-        name: 'User10',
-        email: `User10@${randomUUID()}.com`
-    }
-];
-
-const products = [
-    {
-        serialNumber: randomUUID(),
-        name: 'Product1',
-        price: 1
-    },
-    {
-        serialNumber: randomUUID(),
-        name: 'Product2',
-        price: 2
-    }
-];
-
 let postgresUsersIds = [];
 let postgresProductsIds = [];
 let neo4jUsersIds = [];
 let neo4jProductsIds = [];
 
 async function seed() {
+    const users = [
+        {
+            name: 'User1',
+            email: `User1@${randomUUID()}.com`
+        },
+        {
+            name: 'User2',
+            email: `User2@${randomUUID()}.com`
+        },
+        {
+            name: 'User3',
+            email: `User3@${randomUUID()}.com`
+        },
+        {
+            name: 'User4',
+            email: `User4@${randomUUID()}.com`
+        },
+        {
+            name: 'User5',
+            email: `User5@${randomUUID()}.com`
+        },
+        {
+            name: 'User6',
+            email: `User6@${randomUUID()}.com`
+        },
+        {
+            name: 'User7',
+            email: `User7@${randomUUID()}.com`
+        },
+        {
+            name: 'User8',
+            email: `User8@${randomUUID()}.com`
+        },
+        {
+            name: 'User9',
+            email: `User9@${randomUUID()}.com`
+        },
+        {
+            name: 'User10',
+            email: `User10@${randomUUID()}.com`
+        }
+    ];
+    
+    const products = [
+        {
+            serialNumber: randomUUID(),
+            name: 'Product1',
+            price: 1
+        },
+        {
+            serialNumber: randomUUID(),
+            name: 'Product2',
+            price: 2
+        }
+    ];
+
     await prisma.user.createMany({
         data: users
     });
