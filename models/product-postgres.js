@@ -79,27 +79,6 @@ async function findBuyers(id, skip, take) {
     });
 }
 
-async function update(id, serialNumber, name, price) {
-    return prisma.product.update({
-        where: {
-            id: parseInt(id)
-        },
-        data: {
-            serialNumber: serialNumber,
-            name: name,
-            price: parseInt(price)
-        }
-    });
-}
-
-async function remove(id) {
-    return prisma.product.delete({
-        where: {
-            id: parseInt(id)
-        }
-    });
-}
-
 // Pour une référence de produit donné, obtenir le nombre de personnes l’ayant commandé dans un cercle de followers « orienté » de niveau n
 async function getFollowersByProduct(productId, userId, maxLevels) {
     const start = Date.now();
@@ -132,13 +111,34 @@ async function getFollowersByProduct(productId, userId, maxLevels) {
     };
 }
 
+async function update(id, serialNumber, name, price) {
+    return prisma.product.update({
+        where: {
+            id: parseInt(id)
+        },
+        data: {
+            serialNumber: serialNumber,
+            name: name,
+            price: parseInt(price)
+        }
+    });
+}
+
+async function remove(id) {
+    return prisma.product.delete({
+        where: {
+            id: parseInt(id)
+        }
+    });
+}
+
 module.exports = {
     create: create,
     createMany: createMany,
     findAll: findAll,
     findById: findById,
     findBuyers: findBuyers,
+    getFollowersByProduct: getFollowersByProduct,
     update: update,
-    remove: remove,
-    getFollowersByProduct: getFollowersByProduct
+    remove: remove
 };

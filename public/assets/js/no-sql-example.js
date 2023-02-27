@@ -1,16 +1,16 @@
-const noSqlResultExempleTimeExemple = document.getElementById('nosql-result-time');
+const noSqlResultTimeExemple = document.getElementById('nosql-result-time');
+const noSqlResultExemple = document.getElementById('nosql-result');
 
 const noSqlGetProductsByFollowersIdUserExemple = document.getElementById('nosql-get-products-by-followers-iduser');
 const noSqlGetProductsByFollowersDepthExemple = document.getElementById('nosql-get-products-by-followers-depth');
 const noSqlGetProductsByFollowersBtnExemple = document.getElementById('nosql-get-products-by-followers-btn');
-const noSqlResultExemple = document.getElementById('nosql-result');
 
 noSqlGetProductsByFollowersBtnExemple.addEventListener('click', () => {
     const idUser = noSqlGetProductsByFollowersIdUserExemple.value;
     const depth = noSqlGetProductsByFollowersDepthExemple.value;
 
     fetch(`http://localhost:3000/api/neo4j/users/${idUser}/getProductsByFollowers?maxLevels=${depth}`).then((result) => result.json()).then((data) => {
-        noSqlResultExempleExempleTimeExemple.innerHTML = `${data.executionTime} ms`;
+        noSqlResultTimeExemple.innerHTML = `${data.executionTime} ms`;
         noSqlResultExemple.innerHTML = `
             <table class="table table-striped">
                 <thead>
@@ -43,7 +43,7 @@ noSqlGetProductByFollowersBtnExemple.addEventListener('click', () => {
     const depth = noSqlGetProductByFollowersDepthExemple.value;
 
     fetch(`http://localhost:3000/api/neo4j/users/${idUser}/getProductsByFollowersAndProduct?productId=${idProduct}&maxLevels=${depth}`).then((result) => result.json()).then((data) => {
-        noSqlResultExempleTimeExemple.innerHTML = `${data.executionTime} ms`;
+        noSqlResultTimeExemple.innerHTML = `${data.executionTime} ms`;
         noSqlResultExemple.innerHTML = `
             <table class="table table-striped">
                 <thead>
@@ -72,7 +72,7 @@ noSqlGetFollowersByProductBtnExemple.addEventListener('click', () => {
     const depth = noSqlGetFollowersByProductDepthExemple.value;
 
     fetch(`http://localhost:3000/api/neo4j/products/${idProduct}/getFollowersByProduct?userId=${idUser}&maxLevels=${depth}`).then((result) => result.json()).then((data) => {
-        noSqlResultExempleTimeExemple.innerHTML = `${data.executionTime} ms`;
+        noSqlResultTimeExemple.innerHTML = `${data.executionTime} ms`;
         noSqlResultExemple.innerHTML = `
             <table class="table table-striped">
                 <thead>

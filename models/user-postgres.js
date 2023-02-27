@@ -155,53 +155,6 @@ async function findPurchases(id, skip, take) {
     });
 }
 
-async function update(id, email, name) {
-    return prisma.user.update({
-        where: {
-            id: parseInt(id)
-        },
-        data: {
-            email: email,
-            name: name
-        }
-    });
-}
-
-async function follow(id, userToFollowId) {
-    return prisma.follow.create({
-        data: {
-            followerId: parseInt(id),
-            followingId: parseInt(userToFollowId)
-        }
-    });
-}
-
-async function unfollow(id, userToUnfollowId) {
-    return prisma.follow.deleteMany({
-        where: {
-            followerId: parseInt(id),
-            followingId: parseInt(userToUnfollowId)
-        }
-    });
-}
-
-async function purchase(id, productId) {
-    return prisma.order.create({
-        data: {
-            buyerId: parseInt(id),
-            productId: parseInt(productId)
-        }
-    });
-}
-
-async function remove(id) {
-    return prisma.user.delete({
-        where: {
-            id: parseInt(id)
-        }
-    });
-}
-
 // "Obtenir la liste et le nombre des produits commandés par les cercles de followers d’un individu (niveau 1, ..., niveau n)"
 async function getProductsByFollowers(userId, maxLevels) {
     const start = Date.now();
@@ -268,6 +221,53 @@ async function getProductsByFollowersAndProduct(userId, productId, maxLevels) {
     };
 }
 
+async function update(id, email, name) {
+    return prisma.user.update({
+        where: {
+            id: parseInt(id)
+        },
+        data: {
+            email: email,
+            name: name
+        }
+    });
+}
+
+async function follow(id, userToFollowId) {
+    return prisma.follow.create({
+        data: {
+            followerId: parseInt(id),
+            followingId: parseInt(userToFollowId)
+        }
+    });
+}
+
+async function unfollow(id, userToUnfollowId) {
+    return prisma.follow.deleteMany({
+        where: {
+            followerId: parseInt(id),
+            followingId: parseInt(userToUnfollowId)
+        }
+    });
+}
+
+async function purchase(id, productId) {
+    return prisma.order.create({
+        data: {
+            buyerId: parseInt(id),
+            productId: parseInt(productId)
+        }
+    });
+}
+
+async function remove(id) {
+    return prisma.user.delete({
+        where: {
+            id: parseInt(id)
+        }
+    });
+}
+
 module.exports = {
     create: create,
     createMany: createMany,
@@ -276,11 +276,11 @@ module.exports = {
     findFollowers: findFollowers,
     findFollowing: findFollowing,
     findPurchases: findPurchases,
+    getProductsByFollowers: getProductsByFollowers,
+    getProductsByFollowersAndProduct: getProductsByFollowersAndProduct,
     update: update,
     follow: follow,
     unfollow: unfollow,
     purchase: purchase,
-    remove: remove,
-    getProductsByFollowers: getProductsByFollowers,
-    getProductsByFollowersAndProduct: getProductsByFollowersAndProduct
+    remove: remove
 };

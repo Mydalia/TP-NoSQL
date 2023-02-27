@@ -54,7 +54,7 @@ async function seed() {
             email: `User10@${randomUUID()}.com`
         }
     ];
-    
+
     const products = [
         {
             serialNumber: randomUUID(),

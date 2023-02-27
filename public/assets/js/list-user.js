@@ -2,8 +2,8 @@ const noSqlResult = document.getElementById('nosql-list-user');
 const sgbdResult = document.getElementById('sgdb-list-user');
 
 function getNoSqlUsers() {
-    fetch(`http://localhost:3000/api/neo4j/users/`).then((result) => result.json()).then((data) => {
-    noSqlResult.innerHTML = `
+    fetch('http://localhost:3000/api/neo4j/users').then((result) => result.json()).then((data) => {
+        noSqlResult.innerHTML = `
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -12,10 +12,10 @@ function getNoSqlUsers() {
                 </tr>
             </thead>
             <tbody>
-                ${data.map((p) => ` 
+                ${data.map((u) => ` 
                     <tr>
-                        <td>${p.name}</td>
-                        <td>${p.email}</td>
+                        <td>${u.name}</td>
+                        <td>${u.email}</td>
                     </tr>
                 `).join('')}
             </tbody>
@@ -27,8 +27,8 @@ function getNoSqlUsers() {
 getNoSqlUsers();
 
 function getSgbdUsers() {
-    fetch(`http://localhost:3000/api/postgres/users/?take=10`).then((result) => result.json()).then((data) => {   
-        sgbdResult.innerHTML =`
+    fetch('http://localhost:3000/api/postgres/users/?take=10').then((result) => result.json()).then((data) => {
+        sgbdResult.innerHTML = `
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -37,10 +37,10 @@ function getSgbdUsers() {
                 </tr>
             </thead>
             <tbody>
-                ${data.map((p) => ` 
+                ${data.map((u) => ` 
                     <tr>
-                        <td>${p.name}</td>
-                        <td>${p.email}</td>
+                        <td>${u.name}</td>
+                        <td>${u.email}</td>
                     </tr>
                 `).join('')}
             </tbody>

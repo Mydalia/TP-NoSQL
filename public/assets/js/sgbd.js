@@ -1,13 +1,15 @@
+const sgbdResultTime = document.getElementById('sgbd-result-time');
+const sgbdResult = document.getElementById('sgbd-result');
+
 const sgbdInsertProductNumber = document.getElementById('sgbd-insert-product-number');
 const sgbdInsertProductBatch = document.getElementById('sgbd-insert-product-batch');
 const sgbdInsertProductBtn = document.getElementById('sgbd-insert-product-btn');
-const sgbdResultTime = document.getElementById('sgbd-result-time');
 
 sgbdInsertProductBtn.addEventListener('click', () => {
     const number = sgbdInsertProductNumber.value;
     const batch = sgbdInsertProductBatch.value;
 
-    fetch('http://localhost:3000/api/postgres/products/', {
+    fetch('http://localhost:3000/api/postgres/products', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -18,6 +20,7 @@ sgbdInsertProductBtn.addEventListener('click', () => {
         })
     }).then((result) => result.json()).then((data) => {
         sgbdResultTime.innerHTML = `${data.executionTime} ms`;
+        sgbdResult.innerHTML = '';
         updateCounts();
     });
 });
@@ -30,7 +33,7 @@ sgbdInsertUserBtn.addEventListener('click', () => {
     const number = sgbdInsertUserNumber.value;
     const batch = sgbdInsertUserBatch.value;
 
-    fetch('http://localhost:3000/api/postgres/users/', {
+    fetch('http://localhost:3000/api/postgres/users', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -41,6 +44,7 @@ sgbdInsertUserBtn.addEventListener('click', () => {
         })
     }).then((result) => result.json()).then((data) => {
         sgbdResultTime.innerHTML = `${data.executionTime} ms`;
+        sgbdResult.innerHTML = '';
         updateCounts();
     });
 });
@@ -49,7 +53,6 @@ sgbdInsertUserBtn.addEventListener('click', () => {
 const sgbdGetProductsByFollowersIdUser = document.getElementById('sgbd-get-products-by-followers-iduser');
 const sgbdGetProductsByFollowersDepth = document.getElementById('sgbd-get-products-by-followers-depth');
 const sgbdGetProductsByFollowersBtn = document.getElementById('sgbd-get-products-by-followers-btn');
-const sgbdResult = document.getElementById('sgbd-result');
 
 sgbdGetProductsByFollowersBtn.addEventListener('click', () => {
     const idUser = sgbdGetProductsByFollowersIdUser.value;
@@ -88,7 +91,7 @@ sgbdGetProductByFollowersBtn.addEventListener('click', () => {
     const idProduct = sgbdGetProductByFollowersIdProduct.value;
     const depth = sgbdGetProductByFollowersDepth.value;
 
-    fetch(`http://localhost:3000/api/neo4j/users/${idUser}/getProductsByFollowersAndProduct?productId=${idProduct}&maxLevels=${depth}`).then((result) => result.json()).then((data) => {
+    fetch(`http://localhost:3000/api/postgres/users/${idUser}/getProductsByFollowersAndProduct?productId=${idProduct}&maxLevels=${depth}`).then((result) => result.json()).then((data) => {
         sgbdResultTime.innerHTML = `${data.executionTime} ms`;
         sgbdResult.innerHTML = `
             <table class="table table-striped">
@@ -117,7 +120,7 @@ sgbdGetFollowersByProductBtn.addEventListener('click', () => {
     const idProduct = sgbdGetFollowersByProductIdProduct.value;
     const depth = sgbdGetFollowersByProductDepth.value;
 
-    fetch(`http://localhost:3000/api/neo4j/products/${idProduct}/getFollowersByProduct?userId=${idUser}&maxLevels=${depth}`).then((result) => result.json()).then((data) => {
+    fetch(`http://localhost:3000/api/postgres/products/${idProduct}/getFollowersByProduct?userId=${idUser}&maxLevels=${depth}`).then((result) => result.json()).then((data) => {
         sgbdResultTime.innerHTML = `${data.executionTime} ms`;
         sgbdResult.innerHTML = `
             <table class="table table-striped">

@@ -16,7 +16,10 @@
     <nav class="navbar navbar-light navbar-expand-lg fixed-top" id="mainNav">
         <div class="container"><a class="navbar-brand" href="index.html">TP-NoSQL</a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-3"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navcol-3">
-                <ul class="navbar-nav mx-auto"></ul><a href="index.html"><button class="btn btn-primary d-xl-flex align-items-xl-center" id="btn-accueil" type="button" style="background: rgb(133,138,139);height: 40px;">ACCUEIL</button></a>
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item"><a class="nav-link active" href="utilisateur.html">Utilisateurs</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="produit.html">PRODUITS</a></li>
+                </ul><a href="index.html"><button class="btn btn-primary d-xl-flex align-items-xl-center" id="btn-accueil" type="button" style="background: rgb(133,138,139);height: 40px;">ACCUEIL</button></a>
             </div>
         </div>
     </nav>
@@ -70,24 +73,24 @@
                     </div>
                 </div>
                 <div class="post-preview"><strong class="text-center" style="color: var(--bs-black);font-family: 'Open Sans', sans-serif;text-decoration: underline;font-size: 20px;">Récupère les produits commandés par les followers :</strong>
-                    <div><span style="font-family: 'Open Sans', sans-serif;font-size: 18px;">Id de l'utilisateur :&nbsp;<input type="number" id="sgbd-get-products-by-followers-iduser" min="1" max="10"></span></div>
-                    <div><span style="font-family: 'Open Sans', sans-serif;font-size: 18px;">Niveau de profondeur :&nbsp;<input type="number" id="sgbd-get-products-by-followers-depth" min="1" max="3"></span></div>
+                    <div><span style="font-family: 'Open Sans', sans-serif;font-size: 18px;">Id de l'utilisateur :&nbsp;<input type="number" id="sgbd-get-products-by-followers-iduser" min="1" max="10" value="1"></span></div>
+                    <div><span style="font-family: 'Open Sans', sans-serif;font-size: 18px;">Niveau de profondeur :&nbsp;<input type="number" id="sgbd-get-products-by-followers-depth" min="1" max="3" value="1"></span></div>
                     <div class="d-xl-flex">
                         <div class="col offset-xl-9"><button class="btn btn-primary d-xl-flex align-items-xl-center" id="sgbd-get-products-by-followers-btn" type="button" style="background: rgb(133,138,139);height: 40px;">Envoyer</button></div>
                     </div>
                 </div>
                 <div class="post-preview"><strong class="text-center" style="color: var(--bs-black);font-family: 'Open Sans', sans-serif;text-decoration: underline;font-size: 20px;">Récupère un produit spécifique commandé par les followers :</strong>
-                    <div><span style="font-family: 'Open Sans', sans-serif;font-size: 18px;">Id de l'utilisateur :&nbsp;<input type="number" id="sgbd-get-product-by-followers-iduser" min="1" max="10"></span></div>
-                    <div><span style="font-family: 'Open Sans', sans-serif;font-size: 18px;">Id du produit :&nbsp;<input type="number" id="sgbd-get-product-by-followers-id-product" min="1" max="2"></span></div>
-                    <div><span style="font-family: 'Open Sans', sans-serif;font-size: 18px;">Niveau de profondeur :&nbsp;<input type="number" id="sgbd-get-product-by-followers-depth" min="1" max="3"></span></div>
+                    <div><span style="font-family: 'Open Sans', sans-serif;font-size: 18px;">Id de l'utilisateur :&nbsp;<input type="number" id="sgbd-get-product-by-followers-iduser" min="1" max="10" value="1"></span></div>
+                    <div><span style="font-family: 'Open Sans', sans-serif;font-size: 18px;">Id du produit :&nbsp;<input type="number" id="sgbd-get-product-by-followers-id-product" min="1" max="2" value="1"></span></div>
+                    <div><span style="font-family: 'Open Sans', sans-serif;font-size: 18px;">Niveau de profondeur :&nbsp;<input type="number" id="sgbd-get-product-by-followers-depth" min="1" max="3" value="1"></span></div>
                     <div class="d-xl-flex">
                         <div class="col offset-xl-9"><button class="btn btn-primary d-xl-flex align-items-xl-center" id="sgbd-get-product-by-followers-btn" type="button" style="background: rgb(133,138,139);height: 40px;">Envoyer</button></div>
                     </div>
                 </div>
                 <div class="post-preview"><strong class="text-center" style="color: var(--bs-black);font-family: 'Open Sans', sans-serif;text-decoration: underline;font-size: 20px;">Récupère les utilisateurs ayant achetés un produit spécifique :</strong>
-                    <div><span style="font-family: 'Open Sans', sans-serif;font-size: 18px;">Id de l'utilisateur :&nbsp;<input type="number" id="sgbd-get-followers-by-product-id-user" min="1" max="10"></span></div>
-                    <div><span style="font-family: 'Open Sans', sans-serif;font-size: 18px;">Id du produit :&nbsp;<input type="number" id="sgbd-get-followers-by-product-id-product" min="1" max="2"></span></div>
-                    <div><span style="font-family: 'Open Sans', sans-serif;font-size: 18px;">Niveau de profondeur :&nbsp;<input type="number" id="sgbd-get-followers-by-product-depth" min="1" max="3"></span></div>
+                    <div><span style="font-family: 'Open Sans', sans-serif;font-size: 18px;">Id de l'utilisateur :&nbsp;<input type="number" id="sgbd-get-followers-by-product-id-user" min="1" max="10" value="1"></span></div>
+                    <div><span style="font-family: 'Open Sans', sans-serif;font-size: 18px;">Id du produit :&nbsp;<input type="number" id="sgbd-get-followers-by-product-id-product" min="1" max="2" value="1"></span></div>
+                    <div><span style="font-family: 'Open Sans', sans-serif;font-size: 18px;">Niveau de profondeur :&nbsp;<input type="number" id="sgbd-get-followers-by-product-depth" min="1" max="3" value="1"></span></div>
                     <div class="d-xl-flex">
                         <div class="col offset-xl-9"><button class="btn btn-primary d-xl-flex align-items-xl-center" id="sgbd-get-followers-by-product-btn" type="button" style="background: rgb(133,138,139);height: 40px;">Envoyer</button></div>
                     </div>
@@ -137,24 +140,24 @@
                     </div>
                 </div>
                 <div class="post-preview"><strong class="text-center" style="color: var(--bs-black);font-family: 'Open Sans', sans-serif;text-decoration: underline;font-size: 20px;">Récupère les produits commandés par les followers :</strong>
-                    <div><span style="font-family: 'Open Sans', sans-serif;font-size: 18px;">Id de l'utilisateur :&nbsp;<input type="number" id="nosql-get-products-by-followers-iduser" min="0" max="9"></span></div>
-                    <div><span style="font-family: 'Open Sans', sans-serif;font-size: 18px;">Niveau de profondeur :&nbsp;<input type="number" id="nosql-get-products-by-followers-depth" min="1" max="3"></span></div>
+                    <div><span style="font-family: 'Open Sans', sans-serif;font-size: 18px;">Id de l'utilisateur :&nbsp;<input type="number" id="nosql-get-products-by-followers-iduser" min="0" max="9" value="0"></span></div>
+                    <div><span style="font-family: 'Open Sans', sans-serif;font-size: 18px;">Niveau de profondeur :&nbsp;<input type="number" id="nosql-get-products-by-followers-depth" min="1" max="3" value="1"></span></div>
                     <div class="d-xl-flex">
                         <div class="col offset-xl-9"><button class="btn btn-primary d-xl-flex align-items-xl-center" id="nosql-get-products-by-followers-btn" type="button" style="background: rgb(133,138,139);height: 40px;">Envoyer</button></div>
                     </div>
                 </div>
                 <div class="post-preview"><strong class="text-center" style="color: var(--bs-black);font-family: 'Open Sans', sans-serif;text-decoration: underline;font-size: 20px;">Récupère un produit spécifique commandé par les followers :</strong>
-                    <div><span style="font-family: 'Open Sans', sans-serif;font-size: 18px;">Id de l'utilisateur :&nbsp;<input type="number" id="nosql-get-product-by-followers-iduser" min="0" max="9"></span></div>
-                    <div><span style="font-family: 'Open Sans', sans-serif;font-size: 18px;">Id du produit :&nbsp;<input type="number" id="nosql-get-product-by-followers-id-product" min="0" max="1"></span></div>
-                    <div><span style="font-family: 'Open Sans', sans-serif;font-size: 18px;">Niveau de profondeur :&nbsp;<input type="number" id="nosql-get-product-by-followers-depth" min="1" max="3"></span></div>
+                    <div><span style="font-family: 'Open Sans', sans-serif;font-size: 18px;">Id de l'utilisateur :&nbsp;<input type="number" id="nosql-get-product-by-followers-iduser" min="0" max="9" value="0"></span></div>
+                    <div><span style="font-family: 'Open Sans', sans-serif;font-size: 18px;">Id du produit :&nbsp;<input type="number" id="nosql-get-product-by-followers-id-product" min="10" max="11" value="10"></span></div>
+                    <div><span style="font-family: 'Open Sans', sans-serif;font-size: 18px;">Niveau de profondeur :&nbsp;<input type="number" id="nosql-get-product-by-followers-depth" min="1" max="3" value="1"></span></div>
                     <div class="d-xl-flex">
                         <div class="col offset-xl-9"><button class="btn btn-primary d-xl-flex align-items-xl-center" id="nosql-get-product-by-followers-btn" type="button" style="background: rgb(133,138,139);height: 40px;">Envoyer</button></div>
                     </div>
                 </div>
                 <div class="post-preview"><strong class="text-center" style="color: var(--bs-black);font-family: 'Open Sans', sans-serif;text-decoration: underline;font-size: 20px;">Récupère les utilisateurs ayant achetés un produit spécifique :</strong>
-                    <div><span style="font-family: 'Open Sans', sans-serif;font-size: 18px;">Id de l'utilisateur :&nbsp;<input type="number" id="nosql-get-followers-by-product-id-user" min="0" max="9"></span></div>
-                    <div><span style="font-family: 'Open Sans', sans-serif;font-size: 18px;">Id du produit :&nbsp;<input type="number" id="nosql-get-followers-by-product-id-product" min="0" max="1"></span></div>
-                    <div><span style="font-family: 'Open Sans', sans-serif;font-size: 18px;">Niveau de profondeur :&nbsp;<input type="number" id="nosql-get-followers-by-product-depth" min="1" max="3"></span></div>
+                    <div><span style="font-family: 'Open Sans', sans-serif;font-size: 18px;">Id de l'utilisateur :&nbsp;<input type="number" id="nosql-get-followers-by-product-id-user" min="0" max="9" value="0"></span></div>
+                    <div><span style="font-family: 'Open Sans', sans-serif;font-size: 18px;">Id du produit :&nbsp;<input type="number" id="nosql-get-followers-by-product-id-product" min="10" max="11" value="10"></span></div>
+                    <div><span style="font-family: 'Open Sans', sans-serif;font-size: 18px;">Niveau de profondeur :&nbsp;<input type="number" id="nosql-get-followers-by-product-depth" min="1" max="3" value="1"></span></div>
                     <div class="d-xl-flex">
                         <div class="col offset-xl-9"><button class="btn btn-primary d-xl-flex align-items-xl-center" id="nosql-get-followers-by-product-btn" type="button" style="background: rgb(133,138,139);height: 40px;">Envoyer</button></div>
                     </div>
@@ -183,7 +186,6 @@
         </div>
     </footer>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-    <script src="assets/js/clean-blog.js"></script>
     <script src="assets/js/example.js"></script>
     <script src="assets/js/no-sql-example.js"></script>
     <script src="assets/js/sgbd-example.js"></script>

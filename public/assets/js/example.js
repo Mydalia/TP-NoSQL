@@ -4,7 +4,7 @@ const sgbdNumberOfUsers = document.getElementById('sgbd-number-of-users');
 const sgbdNumberOfProducts = document.getElementById('sgbd-number-of-products');
 
 function addExampleData() {
-    fetch('http://localhost:3000/api/seed').then((result) => result.json()).then((data) => {
+    fetch('http://localhost:3000/api/seed').then((result) => result.json()).then(() => {
         updateCounts();
     });
 }
@@ -16,7 +16,7 @@ function updateCounts() {
         sgbdNumberOfUsers.innerHTML = data.postgres.users;
         sgbdNumberOfProducts.innerHTML = data.postgres.products;
 
-        if(data.neo4j.users == 0 && data.neo4j.products == 0 && data.postgres.users == 0 && data.postgres.products == 0) {
+        if (data.neo4j.users == 0 && data.neo4j.products == 0 && data.postgres.users == 0 && data.postgres.products == 0) {
             addExampleData();
         }
     });

@@ -16,6 +16,15 @@ router.post('/', async(req, res, next) => {
     }
 });
 
+router.get('/', async(req, res, next) => {
+    // #swagger.tags = ['Neo4j/Products']
+    try {
+        res.status(200).json(await products.findTwoNodes(req.query.skip, req.query.take));
+    } catch (e) {
+        next(e);
+    }
+});
+
 router.get('/:id/getFollowersByProduct', async(req, res, next) => {
     // #swagger.tags = ['Neo4j/Products']
     try {
@@ -24,15 +33,6 @@ router.get('/:id/getFollowersByProduct', async(req, res, next) => {
         } else {
             res.status(200).json({ error: 'Missing query parameter' });
         }
-    } catch (e) {
-        next(e);
-    }
-});
-
-router.get('/', async(req, res, next) => {
-    // #swagger.tags = ['Neo4j/Products']
-    try {
-        res.status(200).json(await products.findAll10(req.query.skip, req.query.take));
     } catch (e) {
         next(e);
     }

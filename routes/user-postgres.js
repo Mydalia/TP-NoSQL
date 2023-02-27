@@ -61,6 +61,32 @@ router.get('/:id/purchases', async(req, res, next) => {
     }
 });
 
+router.get('/:id/getProductsByFollowers', async(req, res, next) => {
+    // #swagger.tags = ['Postgres/Users']
+    try {
+        if (req.query.maxLevels) {
+            res.status(200).json(await users.getProductsByFollowers(req.params.id, req.query.maxLevels));
+        } else {
+            res.status(200).json({ error: 'Missing query parameter' });
+        }
+    } catch (e) {
+        next(e);
+    }
+});
+
+router.get('/:id/getProductsByFollowersAndProduct', async(req, res, next) => {
+    // #swagger.tags = ['Postgres/Users']
+    try {
+        if (req.query.productId && req.query.maxLevels) {
+            res.status(200).json(await users.getProductsByFollowersAndProduct(req.params.id, req.query.productId, req.query.maxLevels));
+        } else {
+            res.status(200).json({ error: 'Missing query parameter' });
+        }
+    } catch (e) {
+        next(e);
+    }
+});
+
 router.put('/:id', async(req, res, next) => {
     // #swagger.tags = ['Postgres/Users']
     try {
@@ -101,32 +127,6 @@ router.post('/:id/purchase', async(req, res, next) => {
     // #swagger.tags = ['Postgres/Users']
     try {
         res.status(200).json(await users.purchase(req.params.id, req.body.productId));
-    } catch (e) {
-        next(e);
-    }
-});
-
-router.get('/:id/getProductsByFollowers', async(req, res, next) => {
-    // #swagger.tags = ['Postgres/Users']
-    try {
-        if (req.query.maxLevels) {
-            res.status(200).json(await users.getProductsByFollowers(req.params.id, req.query.maxLevels));
-        } else {
-            res.status(200).json({ error: 'Missing query parameter' });
-        }
-    } catch (e) {
-        next(e);
-    }
-});
-
-router.get('/:id/getProductsByFollowersAndProduct', async(req, res, next) => {
-    // #swagger.tags = ['Postgres/Users']
-    try {
-        if (req.query.productId && req.query.maxLevels) {
-            res.status(200).json(await users.getProductsByFollowersAndProduct(req.params.id, req.query.productId, req.query.maxLevels));
-        } else {
-            res.status(200).json({ error: 'Missing query parameter' });
-        }
     } catch (e) {
         next(e);
     }

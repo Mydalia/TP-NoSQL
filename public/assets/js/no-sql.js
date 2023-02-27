@@ -1,13 +1,15 @@
+const noSqlResultTime = document.getElementById('nosql-result-time');
+const noSqlResult = document.getElementById('nosql-result');
+
 const noSqlInsertProductNumber = document.getElementById('nosql-insert-product-number');
 const noSqlInsertProductBatch = document.getElementById('nosql-insert-product-batch');
 const noSqlInsertProductBtn = document.getElementById('nosql-insert-product-btn');
-const noSqlResultTime = document.getElementById('nosql-result-time');
 
 noSqlInsertProductBtn.addEventListener('click', () => {
     const number = noSqlInsertProductNumber.value;
     const batch = noSqlInsertProductBatch.value;
 
-    fetch('http://localhost:3000/api/neo4j/products/', {
+    fetch('http://localhost:3000/api/neo4j/products', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -18,6 +20,7 @@ noSqlInsertProductBtn.addEventListener('click', () => {
         })
     }).then((result) => result.json()).then((data) => {
         noSqlResultTime.innerHTML = `${data.executionTime} ms`;
+        noSqlResult.innerHTML = '';
         updateCounts();
     });
 });
@@ -30,7 +33,7 @@ noSqlInsertUserBtn.addEventListener('click', () => {
     const number = noSqlInsertUserNumber.value;
     const batch = noSqlInsertUserBatch.value;
 
-    fetch('http://localhost:3000/api/neo4j/users/', {
+    fetch('http://localhost:3000/api/neo4j/users', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -41,6 +44,7 @@ noSqlInsertUserBtn.addEventListener('click', () => {
         })
     }).then((result) => result.json()).then((data) => {
         noSqlResultTime.innerHTML = `${data.executionTime} ms`;
+        noSqlResult.innerHTML = '';
         updateCounts();
     });
 });
@@ -48,7 +52,6 @@ noSqlInsertUserBtn.addEventListener('click', () => {
 const noSqlGetProductsByFollowersIdUser = document.getElementById('nosql-get-products-by-followers-iduser');
 const noSqlGetProductsByFollowersDepth = document.getElementById('nosql-get-products-by-followers-depth');
 const noSqlGetProductsByFollowersBtn = document.getElementById('nosql-get-products-by-followers-btn');
-const noSqlResult = document.getElementById('nosql-result');
 
 noSqlGetProductsByFollowersBtn.addEventListener('click', () => {
     const idUser = noSqlGetProductsByFollowersIdUser.value;

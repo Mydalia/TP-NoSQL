@@ -1,16 +1,16 @@
-const sgbdResultExempleTimeExemple = document.getElementById('sgbd-result-time');
+const sgbdResultTimeExemple = document.getElementById('sgbd-result-time');
+const sgbdResultExemple = document.getElementById('sgbd-result');
 
 const sgbdGetProductsByFollowersIdUserExemple = document.getElementById('sgbd-get-products-by-followers-iduser');
 const sgbdGetProductsByFollowersDepthExemple = document.getElementById('sgbd-get-products-by-followers-depth');
 const sgbdGetProductsByFollowersBtnExemple = document.getElementById('sgbd-get-products-by-followers-btn');
-const sgbdResultExemple = document.getElementById('sgbd-result');
 
 sgbdGetProductsByFollowersBtnExemple.addEventListener('click', () => {
     const idUser = sgbdGetProductsByFollowersIdUserExemple.value;
     const depth = sgbdGetProductsByFollowersDepthExemple.value;
 
     fetch(`http://localhost:3000/api/postgres/users/${idUser}/getProductsByFollowers?maxLevels=${depth}`).then((result) => result.json()).then((data) => {
-        sgbdResultExempleTimeExemple.innerHTML = `${data.executionTime} ms`;
+        sgbdResultTimeExemple.innerHTML = `${data.executionTime} ms`;
         sgbdResultExemple.innerHTML = `
             <table class="table table-striped">
                 <thead>
@@ -42,8 +42,8 @@ sgbdGetProductByFollowersBtnExemple.addEventListener('click', () => {
     const idProduct = sgbdGetProductByFollowersIdProductExemple.value;
     const depth = sgbdGetProductByFollowersDepthExemple.value;
 
-    fetch(`http://localhost:3000/api/neo4j/users/${idUser}/getProductsByFollowersAndProduct?productId=${idProduct}&maxLevels=${depth}`).then((result) => result.json()).then((data) => {
-        sgbdResultExempleTimeExemple.innerHTML = `${data.executionTime} ms`;
+    fetch(`http://localhost:3000/api/postgres/users/${idUser}/getProductsByFollowersAndProduct?productId=${idProduct}&maxLevels=${depth}`).then((result) => result.json()).then((data) => {
+        sgbdResultTimeExemple.innerHTML = `${data.executionTime} ms`;
         sgbdResultExemple.innerHTML = `
             <table class="table table-striped">
                 <thead>
@@ -71,8 +71,8 @@ sgbdGetFollowersByProductBtnExemple.addEventListener('click', () => {
     const idProduct = sgbdGetFollowersByProductIdProductExemple.value;
     const depth = sgbdGetFollowersByProductDepthExemple.value;
 
-    fetch(`http://localhost:3000/api/neo4j/products/${idProduct}/getFollowersByProduct?userId=${idUser}&maxLevels=${depth}`).then((result) => result.json()).then((data) => {
-        sgbdResultExempleTimeExemple.innerHTML = `${data.executionTime} ms`;
+    fetch(`http://localhost:3000/api/postgres/products/${idProduct}/getFollowersByProduct?userId=${idUser}&maxLevels=${depth}`).then((result) => result.json()).then((data) => {
+        sgbdResultTimeExemple.innerHTML = `${data.executionTime} ms`;
         sgbdResultExemple.innerHTML = `
             <table class="table table-striped">
                 <thead>
