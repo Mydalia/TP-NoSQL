@@ -6,6 +6,7 @@ const sgbdGetProductsByFollowersDepthExemple = document.getElementById('sgbd-get
 const sgbdGetProductsByFollowersBtnExemple = document.getElementById('sgbd-get-products-by-followers-btn');
 
 sgbdGetProductsByFollowersBtnExemple.addEventListener('click', () => {
+    toggleLoader('on');
     const idUser = sgbdGetProductsByFollowersIdUserExemple.value;
     const depth = sgbdGetProductsByFollowersDepthExemple.value;
 
@@ -29,6 +30,7 @@ sgbdGetProductsByFollowersBtnExemple.addEventListener('click', () => {
                 </tbody>
             </table>
         `;
+        toggleLoader('off');
     });
 });
 
@@ -38,6 +40,7 @@ const sgbdGetProductByFollowersDepthExemple = document.getElementById('sgbd-get-
 const sgbdGetProductByFollowersBtnExemple = document.getElementById('sgbd-get-product-by-followers-btn');
 
 sgbdGetProductByFollowersBtnExemple.addEventListener('click', () => {
+    toggleLoader('on');
     const idUser = sgbdGetProductByFollowersIdUserExemple.value;
     const idProduct = sgbdGetProductByFollowersIdProductExemple.value;
     const depth = sgbdGetProductByFollowersDepthExemple.value;
@@ -58,6 +61,7 @@ sgbdGetProductByFollowersBtnExemple.addEventListener('click', () => {
                 </tbody>
             </table>
         `;
+        toggleLoader('off');
     });
 });
 
@@ -67,6 +71,7 @@ const sgbdGetFollowersByProductDepthExemple = document.getElementById('sgbd-get-
 const sgbdGetFollowersByProductBtnExemple = document.getElementById('sgbd-get-followers-by-product-btn');
 
 sgbdGetFollowersByProductBtnExemple.addEventListener('click', () => {
+    toggleLoader('on');
     const idUser = sgbdGetFollowersByProductIdUserExemple.value;
     const idProduct = sgbdGetFollowersByProductIdProductExemple.value;
     const depth = sgbdGetFollowersByProductDepthExemple.value;
@@ -87,5 +92,6 @@ sgbdGetFollowersByProductBtnExemple.addEventListener('click', () => {
                 </tbody>
             </table>
         `;
+        toggleLoader('off');
     });
 });

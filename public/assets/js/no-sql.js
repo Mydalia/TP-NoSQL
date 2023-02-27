@@ -6,6 +6,7 @@ const noSqlInsertProductBatch = document.getElementById('nosql-insert-product-ba
 const noSqlInsertProductBtn = document.getElementById('nosql-insert-product-btn');
 
 noSqlInsertProductBtn.addEventListener('click', () => {
+    toggleLoader('on');
     const number = noSqlInsertProductNumber.value;
     const batch = noSqlInsertProductBatch.value;
 
@@ -30,6 +31,7 @@ const noSqlInsertUserBatch = document.getElementById('nosql-insert-user-batch');
 const noSqlInsertUserBtn = document.getElementById('nosql-insert-user-btn');
 
 noSqlInsertUserBtn.addEventListener('click', () => {
+    toggleLoader('on');
     const number = noSqlInsertUserNumber.value;
     const batch = noSqlInsertUserBatch.value;
 
@@ -54,6 +56,7 @@ const noSqlGetProductsByFollowersDepth = document.getElementById('nosql-get-prod
 const noSqlGetProductsByFollowersBtn = document.getElementById('nosql-get-products-by-followers-btn');
 
 noSqlGetProductsByFollowersBtn.addEventListener('click', () => {
+    toggleLoader('on');
     const idUser = noSqlGetProductsByFollowersIdUser.value;
     const depth = noSqlGetProductsByFollowersDepth.value;
 
@@ -77,6 +80,7 @@ noSqlGetProductsByFollowersBtn.addEventListener('click', () => {
                 </tbody>
             </table>
         `;
+        toggleLoader('off');
     });
 });
 
@@ -86,6 +90,7 @@ const noSqlGetProductByFollowersDepth = document.getElementById('nosql-get-produ
 const noSqlGetProductByFollowersBtn = document.getElementById('nosql-get-product-by-followers-btn');
 
 noSqlGetProductByFollowersBtn.addEventListener('click', () => {
+    toggleLoader('on');
     const idUser = noSqlGetProductByFollowersIdUser.value;
     const idProduct = noSqlGetProductByFollowersIdProduct.value;
     const depth = noSqlGetProductByFollowersDepth.value;
@@ -106,6 +111,7 @@ noSqlGetProductByFollowersBtn.addEventListener('click', () => {
                 </tbody>
             </table>
         `;
+        toggleLoader('off');
     });
 });
 
@@ -115,6 +121,7 @@ const noSqlGetFollowersByProductDepth = document.getElementById('nosql-get-follo
 const noSqlGetFollowersByProductBtn = document.getElementById('nosql-get-followers-by-product-btn');
 
 noSqlGetFollowersByProductBtn.addEventListener('click', () => {
+    toggleLoader('on');
     const idUser = noSqlGetFollowersByProductIdUser.value;
     const idProduct = noSqlGetFollowersByProductIdProduct.value;
     const depth = noSqlGetFollowersByProductDepth.value;
@@ -135,5 +142,6 @@ noSqlGetFollowersByProductBtn.addEventListener('click', () => {
                 </tbody>
             </table>
         `;
+        toggleLoader('off');
     });
 });

@@ -1,0 +1,48 @@
+Table user {
+  id Int [pk, increment]
+  email String [unique, not null]
+  name String [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  followers follow [not null]
+  following follow [not null]
+  purchases order [not null]
+}
+
+Table product {
+  id Int [pk, increment]
+  serialNumber String [unique, not null]
+  name String [not null]
+  price Int [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  buyers order [not null]
+}
+
+Table follow {
+  id Int [pk, increment]
+  follower user [not null]
+  followerId Int [not null]
+  following user [not null]
+  followingId Int [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+}
+
+Table order {
+  id Int [pk, increment]
+  buyer user [not null]
+  buyerId Int [not null]
+  product product [not null]
+  productId Int [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+}
+
+Ref: follow.followerId > user.id
+
+Ref: follow.followingId > user.id
+
+Ref: order.buyerId > user.id
+
+Ref: order.productId > product.id

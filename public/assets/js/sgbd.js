@@ -6,6 +6,7 @@ const sgbdInsertProductBatch = document.getElementById('sgbd-insert-product-batc
 const sgbdInsertProductBtn = document.getElementById('sgbd-insert-product-btn');
 
 sgbdInsertProductBtn.addEventListener('click', () => {
+    toggleLoader('on');
     const number = sgbdInsertProductNumber.value;
     const batch = sgbdInsertProductBatch.value;
 
@@ -30,6 +31,7 @@ const sgbdInsertUserBatch = document.getElementById('sgbd-insert-user-batch');
 const sgbdInsertUserBtn = document.getElementById('sgbd-insert-user-btn');
 
 sgbdInsertUserBtn.addEventListener('click', () => {
+    toggleLoader('on');
     const number = sgbdInsertUserNumber.value;
     const batch = sgbdInsertUserBatch.value;
 
@@ -55,6 +57,7 @@ const sgbdGetProductsByFollowersDepth = document.getElementById('sgbd-get-produc
 const sgbdGetProductsByFollowersBtn = document.getElementById('sgbd-get-products-by-followers-btn');
 
 sgbdGetProductsByFollowersBtn.addEventListener('click', () => {
+    toggleLoader('on');
     const idUser = sgbdGetProductsByFollowersIdUser.value;
     const depth = sgbdGetProductsByFollowersDepth.value;
 
@@ -78,6 +81,7 @@ sgbdGetProductsByFollowersBtn.addEventListener('click', () => {
                 </tbody>
             </table>
         `;
+        toggleLoader('off');
     });
 });
 
@@ -87,6 +91,7 @@ const sgbdGetProductByFollowersDepth = document.getElementById('sgbd-get-product
 const sgbdGetProductByFollowersBtn = document.getElementById('sgbd-get-product-by-followers-btn');
 
 sgbdGetProductByFollowersBtn.addEventListener('click', () => {
+    toggleLoader('on');
     const idUser = sgbdGetProductByFollowersIdUser.value;
     const idProduct = sgbdGetProductByFollowersIdProduct.value;
     const depth = sgbdGetProductByFollowersDepth.value;
@@ -107,6 +112,7 @@ sgbdGetProductByFollowersBtn.addEventListener('click', () => {
                 </tbody>
             </table>
         `;
+        toggleLoader('off');
     });
 });
 
@@ -116,6 +122,7 @@ const sgbdGetFollowersByProductDepth = document.getElementById('sgbd-get-followe
 const sgbdGetFollowersByProductBtn = document.getElementById('sgbd-get-followers-by-product-btn');
 
 sgbdGetFollowersByProductBtn.addEventListener('click', () => {
+    toggleLoader('on');
     const idUser = sgbdGetFollowersByProductIdUser.value;
     const idProduct = sgbdGetFollowersByProductIdProduct.value;
     const depth = sgbdGetFollowersByProductDepth.value;
@@ -136,5 +143,6 @@ sgbdGetFollowersByProductBtn.addEventListener('click', () => {
                 </tbody>
             </table>
         `;
+        toggleLoader('off');
     });
 });

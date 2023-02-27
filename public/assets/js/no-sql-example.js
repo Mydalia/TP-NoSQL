@@ -6,6 +6,7 @@ const noSqlGetProductsByFollowersDepthExemple = document.getElementById('nosql-g
 const noSqlGetProductsByFollowersBtnExemple = document.getElementById('nosql-get-products-by-followers-btn');
 
 noSqlGetProductsByFollowersBtnExemple.addEventListener('click', () => {
+    toggleLoader('on');
     const idUser = noSqlGetProductsByFollowersIdUserExemple.value;
     const depth = noSqlGetProductsByFollowersDepthExemple.value;
 
@@ -29,6 +30,7 @@ noSqlGetProductsByFollowersBtnExemple.addEventListener('click', () => {
                 </tbody>
             </table>
         `;
+        toggleLoader('off');
     });
 });
 
@@ -38,6 +40,7 @@ const noSqlGetProductByFollowersDepthExemple = document.getElementById('nosql-ge
 const noSqlGetProductByFollowersBtnExemple = document.getElementById('nosql-get-product-by-followers-btn');
 
 noSqlGetProductByFollowersBtnExemple.addEventListener('click', () => {
+    toggleLoader('on');
     const idUser = noSqlGetProductByFollowersIdUserExemple.value;
     const idProduct = noSqlGetProductByFollowersIdProductExemple.value;
     const depth = noSqlGetProductByFollowersDepthExemple.value;
@@ -58,6 +61,7 @@ noSqlGetProductByFollowersBtnExemple.addEventListener('click', () => {
                 </tbody>
             </table>
         `;
+        toggleLoader('off');
     });
 });
 
@@ -67,6 +71,7 @@ const noSqlGetFollowersByProductDepthExemple = document.getElementById('nosql-ge
 const noSqlGetFollowersByProductBtnExemple = document.getElementById('nosql-get-followers-by-product-btn');
 
 noSqlGetFollowersByProductBtnExemple.addEventListener('click', () => {
+    toggleLoader('on');
     const idUser = noSqlGetFollowersByProductIdUserExemple.value;
     const idProduct = noSqlGetFollowersByProductIdProductExemple.value;
     const depth = noSqlGetFollowersByProductDepthExemple.value;
@@ -87,5 +92,6 @@ noSqlGetFollowersByProductBtnExemple.addEventListener('click', () => {
                 </tbody>
             </table>
         `;
+        toggleLoader('off');
     });
 });
