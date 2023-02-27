@@ -9,8 +9,12 @@ router.get('/', async(req, res, next) => {
     try {
         const postgresUsers = await prisma.user.count();
         const postgresProducts = await prisma.product.count();
+        const postgresFollows = await prisma.follow.count();
+        const postgresOrders = await prisma.order.count();
         let neo4jUsers = 0;
         let neo4jProducts = 0;
+        let neo4jFollows = 0;
+        let neo4jOrders = 0;
 
         const session = neo4j.session();
         try {
@@ -23,6 +27,16 @@ router.get('/', async(req, res, next) => {
                 'MATCH (:Product) RETURN count(*) as count'
             );
             neo4jProducts = result.records[0].get(0).low;
+
+            result = await session.run(
+                'MATCH (:User)-[:FOLLOWS]->(:User) RETURN count(*) as count'
+            );
+            neo4jFollows = result.records[0].get(0).low;
+
+            result = await session.run(
+                'MATCH (:User)-[:BOUGHT]->(:Product) RETURN count(*) as count'
+            );
+            neo4jOrders = result.records[0].get(0).low;
         } finally {
             await session.close();
         }
@@ -30,11 +44,15 @@ router.get('/', async(req, res, next) => {
         res.status(200).json({
             postgres: {
                 users: postgresUsers,
-                products: postgresProducts
+                products: postgresProducts,
+                follows: postgresFollows,
+                orders: postgresOrders
             },
             neo4j: {
                 users: neo4jUsers,
-                products: neo4jProducts
+                products: neo4jProducts,
+                follows: neo4jFollows,
+                orders: neo4jOrders
             }
         });
     } catch (e) {

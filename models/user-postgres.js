@@ -46,16 +46,14 @@ async function createMany(number, batch) {
 
             let data = [];
             for (let userId = lastInsertedId; userId < lastInsertedId + batch; userId++) {
-                if (Math.random() > 0.5) {
-                    const numberOfFollowers = Math.floor(Math.random() * 20) + 1;
-                    for (let k = 0; k < numberOfFollowers; k++) {
-                        const randomUserId = Math.floor(Math.random() * (lastInsertedId + batch - lastInsertedId) + lastInsertedId);
-                        if (randomUserId !== userId) {
-                            data.push({
-                                followingId: userId,
-                                followerId: randomUserId
-                            });
-                        }
+                const numberOfFollowers = Math.floor(Math.random() * 21);
+                for (let k = 0; k < numberOfFollowers; k++) {
+                    const randomUserId = Math.floor(Math.random() * (lastInsertedId + batch - lastInsertedId) + lastInsertedId);
+                    if (randomUserId !== userId) {
+                        data.push({
+                            followingId: userId,
+                            followerId: randomUserId
+                        });
                     }
                 }
             }
@@ -67,7 +65,7 @@ async function createMany(number, batch) {
 
             data = [];
             for (let userId = lastInsertedId; userId < lastInsertedId + batch; userId++) {
-                const numberOfProducts = Math.floor(Math.random() * 5) + 1;
+                const numberOfProducts = Math.floor(Math.random() * 6);
                 for (let k = 0; k < numberOfProducts; k++) {
                     data.push({
                         buyerId: userId,
@@ -161,11 +159,11 @@ async function getProductsByFollowers(userId, maxLevels) {
 
     const result = await prisma.$queryRaw`
         WITH RECURSIVE followers AS (
-            SELECT id, following_id, follower_id, 1 AS level
+            SELECT follower_id, 1 AS level
             FROM follow
             WHERE following_id = ${parseInt(userId)}
             UNION ALL
-            SELECT f.id, f.following_id, f.follower_id, followers.level + 1
+            SELECT f.follower_id, followers.level + 1
             FROM follow f
             INNER JOIN followers ON f.following_id = followers.follower_id
             WHERE followers.level < ${parseInt(maxLevels)}
@@ -175,7 +173,7 @@ async function getProductsByFollowers(userId, maxLevels) {
             UNION
             SELECT ${parseInt(userId)} AS follower_id
         )
-        SELECT p.serial_number, p.name, p.price, COUNT(o.id) AS count
+        SELECT p.serial_number, p.name, p.price, COUNT(p.id) AS count
         FROM unique_followers
         INNER JOIN "order" o ON unique_followers.follower_id = o.buyer_id
         INNER JOIN product p ON o.product_id = p.id
@@ -195,11 +193,11 @@ async function getProductsByFollowersAndProduct(userId, productId, maxLevels) {
 
     const result = await prisma.$queryRaw`
         WITH RECURSIVE followers AS (
-            SELECT id, following_id, follower_id, 1 AS level
+            SELECT follower_id, 1 AS level
             FROM follow
             WHERE following_id = ${parseInt(userId)}
             UNION ALL
-            SELECT f.id, f.following_id, f.follower_id, followers.level + 1
+            SELECT f.follower_id, followers.level + 1
             FROM follow f
             INNER JOIN followers ON f.following_id = followers.follower_id
             WHERE followers.level < ${parseInt(maxLevels)}
@@ -210,7 +208,7 @@ async function getProductsByFollowersAndProduct(userId, productId, maxLevels) {
             SELECT ${parseInt(userId)} AS follower_id
         )
         SELECT COUNT(o.id) AS count
-        FROM unique_followers 
+        FROM unique_followers
         INNER JOIN "order" o ON unique_followers.follower_id = o.buyer_id
         WHERE o.product_id = ${parseInt(productId)}
     `;

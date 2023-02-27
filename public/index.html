@@ -20,8 +20,8 @@
             <div class="collapse navbar-collapse" id="navcol-3">
                 <ul class="navbar-nav mx-auto">
                     <li class="nav-item"><a class="nav-link active" href="utilisateur.html">Utilisateurs</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="produit.html">PRODUITS</a></li>
-                </ul><a href="exemple.html"><button class="btn btn-primary d-xl-flex align-items-xl-center" id="btn-exemple" type="button" style="background: rgb(133,138,139);height: 40px;">EXEMPLE</button></a>
+                    <li class="nav-item"><a class="nav-link active" href="produit.html">Produits</a></li>
+                </ul><a href="exemple.html"><button class="btn btn-primary d-xl-flex align-items-xl-center" id="btn-exemple" type="button" style="background: rgb(133,138,139);height: 40px;">Exemple</button></a>
             </div>
         </div>
     </nav>
@@ -66,6 +66,28 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="row">
+                                        <div class="col"><span style="text-align: center;text-decoration: underline;">Nombre de relation follows :</span></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col"><span id="sgbd-number-of-follows"></span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="row">
+                                <div class="col"><span style="text-decoration: underline;">Nombre de relation orders :</span></div>
+                            </div>
+                            <div class="row">
+                                <div class="col"><span id="sgbd-number-of-orders"></span></div>
+                            </div>
+                        </div>
+                    </div>
                     <hr>
                 </div>
                 <div class="post-preview">
@@ -81,7 +103,7 @@
                         <div class="col offset-xl-9"><button class="btn btn-primary d-xl-flex align-items-xl-center" id="sgbd-insert-product-btn" type="button" style="background: rgb(133,138,139);height: 40px;">Envoyer</button></div>
                     </div>
                 </div>
-                <div class="post-preview"><strong class="text-center" style="color: var(--bs-black);font-family: 'Open Sans', sans-serif;text-decoration: underline;font-size: 20px;">Insérer des utilisateurs avec followers &amp; produits :</strong>
+                <div class="post-preview"><strong class="text-center" style="color: var(--bs-black);font-family: 'Open Sans', sans-serif;text-decoration: underline;font-size: 20px;">Insérer des utilisateurs avec followers &amp; orders :</strong>
                     <div><span style="font-family: 'Open Sans', sans-serif;font-size: 18px;">Nombre d'utilisateurs :&nbsp;<input type="number" id="sgbd-insert-user-number" value="1000000"></span></div>
                     <div><span style="font-family: 'Open Sans', sans-serif;font-size: 18px;">Par pack de :&nbsp;<input type="number" id="sgbd-insert-user-batch" value="10000"></span></div>
                     <div class="d-xl-flex">
@@ -153,6 +175,28 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="row">
+                                        <div class="col"><span style="text-align: center;text-decoration: underline;">Nombre de relation follows :</span></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col"><span id="nosql-number-of-follows"></span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="row">
+                                <div class="col"><span style="text-decoration: underline;">Nombre de relation orders :</span></div>
+                            </div>
+                            <div class="row">
+                                <div class="col"><span id="nosql-number-of-orders"></span></div>
+                            </div>
+                        </div>
+                    </div>
                     <hr>
                 </div>
                 <div class="post-preview">
@@ -168,7 +212,7 @@
                         <div class="col offset-xl-9"><button class="btn btn-primary d-xl-flex align-items-xl-center" id="nosql-insert-product-btn" type="button" style="background: rgb(133,138,139);height: 40px;">Envoyer</button></div>
                     </div>
                 </div>
-                <div class="post-preview"><strong class="text-center" style="color: var(--bs-black);font-family: 'Open Sans', sans-serif;text-decoration: underline;font-size: 20px;">Insérer des utilisateurs avec followers &amp; produits :</strong>
+                <div class="post-preview"><strong class="text-center" style="color: var(--bs-black);font-family: 'Open Sans', sans-serif;text-decoration: underline;font-size: 20px;">Insérer des utilisateurs avec followers &amp; orders :</strong>
                     <div><span style="font-family: 'Open Sans', sans-serif;font-size: 18px;">Nombre d'utilisateurs :&nbsp;<input type="number" id="nosql-insert-user-number" value="1000000"></span></div>
                     <div><span style="font-family: 'Open Sans', sans-serif;font-size: 18px;">Par pack de :&nbsp;<input type="number" id="nosql-insert-user-batch" value="10000"></span></div>
                     <div class="d-xl-flex">

@@ -85,11 +85,11 @@ async function getFollowersByProduct(productId, userId, maxLevels) {
 
     const result = await prisma.$queryRaw`
         WITH RECURSIVE followers AS (
-            SELECT id, following_id, follower_id, 1 AS level
+            SELECT follower_id, 1 AS level
             FROM follow
             WHERE following_id = ${parseInt(userId)}
             UNION ALL
-            SELECT f.id, f.following_id, f.follower_id, followers.level + 1
+            SELECT f.follower_id, followers.level + 1
             FROM follow f
             INNER JOIN followers ON f.following_id = followers.follower_id
             WHERE followers.level < ${parseInt(maxLevels)}

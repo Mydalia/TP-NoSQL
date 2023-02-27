@@ -59,16 +59,14 @@ async function createMany(number, batch) {
 
             let data = [];
             for (let j = 0; j < result.records.length; j++) {
-                if (Math.random() > 0.5) {
-                    const numberOfFollowers = Math.floor(Math.random() * 20) + 1;
-                    for (let k = 0; k < numberOfFollowers; k++) {
-                        const randomUserId = result.records[Math.floor(Math.random() * result.records.length)].get(0).identity.low;
-                        if (randomUserId !== result.records[j].get(0).identity.low) {
-                            data.push({
-                                followingId: result.records[j].get(0).identity.low,
-                                followerId: randomUserId
-                            });
-                        }
+                const numberOfFollowers = Math.floor(Math.random() * 21);
+                for (let k = 0; k < numberOfFollowers; k++) {
+                    const randomUserId = result.records[Math.floor(Math.random() * result.records.length)].get(0).identity.low;
+                    if (randomUserId !== result.records[j].get(0).identity.low) {
+                        data.push({
+                            followingId: result.records[j].get(0).identity.low,
+                            followerId: randomUserId
+                        });
                     }
                 }
             }
@@ -85,11 +83,11 @@ async function createMany(number, batch) {
 
             data = [];
             for (let j = 0; j < result.records.length; j++) {
-                const numberOfProducts = Math.floor(Math.random() * 5) + 1;
+                const numberOfProducts = Math.floor(Math.random() * 6);
                 for (let k = 0; k < numberOfProducts; k++) {
                     data.push({
                         userId: result.records[j].get(0).identity.low,
-                        productId: Math.floor(Math.random() * productNumber) + 1
+                        productId: Math.floor(Math.random() * (productNumber - 10) + 10)
                     });
                 }
             }
